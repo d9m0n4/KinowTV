@@ -31,6 +31,16 @@ module.exports = {
       borderRadius: {
         '4xl': '2rem',
       },
+      keyframes: {
+        textShadow: {
+          '0%, 100%': { textShadow: '0 0 16px rgb(59 130 246 / 50%)' },
+          '50%': { textShadow: '0 0 32px rgb(59 130 246 / 50%)' },
+        },
+        block: {
+          '0%': { top: '50%' },
+          '100%': { top: '0' },
+        },
+      },
     },
   },
   plugins: [
