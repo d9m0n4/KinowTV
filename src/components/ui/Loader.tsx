@@ -35,6 +35,7 @@ const Loader = ({ in: inProp }: any) => {
           style={{
             ...defaultStyle,
             ...transitionStyles[state],
+            position: 'fixed',
           }}>
           <div className="h-screen w-screen bg-accentDark flex justify-center items-center text-6xl font-bold tracking-wider relative">
             <div

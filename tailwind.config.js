@@ -13,7 +13,11 @@ module.exports = {
     },
     colors: {
       accentDark: '#1E2337',
-      accentPurple: '#8613CD',
+      accentPurple: {
+        light: '#8625CD',
+        DEFAULT: '#8613CD',
+        dark: '#8600CD',
+      },
       lightGray: '#F2F2F2',
       secondaryText: '#D6D6D6',
       dark: '#0303030',
@@ -47,10 +51,9 @@ module.exports = {
     require('@tailwindcss/forms'),
     plugin(function ({ addComponents }) {
       addComponents({
-        '.bgText': {
-          backgroundImage: 'url(/src/assets/film-roll.png)',
-          backgroundSize: 'contain',
-          backgroundColor: 'transparent',
+        '.menu': {
+          background: 'linear-gradient(180deg, #1E2337 26.15%, rgba(30, 35, 55, 0) 100%)',
+          borderRadius: '8px',
         },
       });
     }),
