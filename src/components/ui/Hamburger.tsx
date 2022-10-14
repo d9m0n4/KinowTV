@@ -1,10 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 
-const Hamburger = () => {
+interface IHamburger {
+  onClick: () => void;
+}
+
+const Hamburger: React.FC<IHamburger> = ({ onClick }) => {
   const [open, setOpen] = React.useState(false);
   return (
-    <div className=" bg-accentDark  flex flex-col justify-center ">
+    <div onClick={onClick} className=" bg-accentDark  flex flex-col justify-center transition-all ">
       <div className="relative  mx-auto">
         <nav x-data="{ open: false }">
           <button
