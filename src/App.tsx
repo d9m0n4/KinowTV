@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './components/layout/Header';
+import Main from './components/layout/Main';
 import Loader from './components/ui/Loader';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       {/* <Loader in={loader} /> */}
       <Header />
+      <Main />
     </div>
   );
 }
