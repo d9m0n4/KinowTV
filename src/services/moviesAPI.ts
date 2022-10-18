@@ -16,7 +16,10 @@ export const MoviesAPI = createApi({
     getTop: builder.query({
       query: ({ type, page }) => `/v2.2/films/top?type=${type}&page=${page}`,
     }),
+    getVideos: builder.query({
+      query: ({ id }) => `v2.2/films/${id}/videos`,
+    }),
   }),
 });
 
-export const { useGetPremiersQuery, useGetTopQuery } = MoviesAPI;
+export const { useGetPremiersQuery, useGetTopQuery, useGetVideosQuery } = MoviesAPI;
