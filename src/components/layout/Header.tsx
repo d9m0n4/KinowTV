@@ -31,7 +31,7 @@ const Header = () => {
           </div>
           {/* меню */}
           {isMenuOpen && (
-            <div className="p-4 menu fixed">
+            <div className="p-4 menu absolute z-10">
               <nav>
                 <ul className="flex">
                   <li className="mx-4">

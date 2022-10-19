@@ -6,6 +6,8 @@ export const MoviesAPI = createApi({
     baseUrl: 'https://kinopoiskapiunofficial.tech/api/',
     prepareHeaders: (headers, { getState }) => {
       headers.set('X-API-KEY', '27e448ff-ebf1-469e-abdd-5eca1f02911f');
+      headers.set('Access-Control-Allow-Origin', '*');
+      headers.set('Content-Type', 'text/html');
       return headers;
     },
   }),
@@ -19,7 +21,17 @@ export const MoviesAPI = createApi({
     getVideos: builder.query({
       query: ({ id }) => `v2.2/films/${id}/videos`,
     }),
+    getImages: builder.query({
+      query: ({ id, page, images }) => ({
+        url: `v2.2/films/${id}/images`,
+        params: {
+          images,
+          page,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetPremiersQuery, useGetTopQuery, useGetVideosQuery } = MoviesAPI;
+export const { useGetPremiersQuery, useGetTopQuery, useGetVideosQuery, useGetImagesQuery } =
+  MoviesAPI;

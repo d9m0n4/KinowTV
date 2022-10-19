@@ -13,6 +13,7 @@ module.exports = {
     },
     colors: {
       accentDark: '#1E2337',
+      accentWrapper: 'rgba(30, 35, 55, .8)',
       accentPurple: {
         light: '#8625CD',
         DEFAULT: '#8613CD',
@@ -54,6 +55,30 @@ module.exports = {
         '.menu': {
           background: 'linear-gradient(180deg, #1E2337 26.15%, rgba(30, 35, 55, 0) 100%)',
           borderRadius: '8px',
+        },
+        '.coverShadow': {
+          background: 'linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, #1E2337 70.78%);',
+        },
+        '.cover': {
+          background:
+            'radial-gradient(158.18% 131.57% at 151.18% 50%, rgba(0, 0, 0, 0) 0%, #1E2337 96.4%);',
+        },
+        '.rightArrowGradient': {
+          background: 'linear-gradient(270deg, #1e2337 25%,rgba(0, 0,0,0))',
+        },
+
+        '.leftArrowGradient': {
+          background: 'linear-gradient(90deg, #1e2337 25%,rgba(0, 0,0,0))',
+        },
+
+        '.leftGradient': {
+          content: '',
+          display: 'block',
+          height: '100%',
+          pointerEvents: 'none',
+          position: 'absolute',
+          top: 0,
+          width: '90px',
         },
       });
     }),
