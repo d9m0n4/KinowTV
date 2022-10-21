@@ -1,15 +1,16 @@
 import clsx from 'clsx';
 import React from 'react';
+import { useSwiper } from 'swiper/react';
 
-const CustomNextArrow = (props: any) => {
-  const { className, style, onClick } = props;
+const CustomNextArrow = () => {
+  const swiper = useSwiper();
+
   return (
     <div
       className={clsx(
-        className,
         'flex items-center justify-center rightArrowGradient transition-all hover:rightArrowGradient h-full w-16 before:content-none',
       )}
-      onClick={onClick}>
+      onClick={() => swiper.slideNext()}>
       <svg
         className="ml-6"
         width="12"
