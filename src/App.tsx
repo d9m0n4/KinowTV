@@ -1,9 +1,9 @@
 import React from 'react';
+import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import Main from './components/layout/Main';
 import Loader from './components/ui/Loader';
-// import '~slick-carousel/slick/slick.css';
-// import '~slick-carousel/slick/slick-theme.css';
+import Auth from './pages/auth';
 
 function App() {
   const [loader, setLoader] = React.useState(true);
@@ -17,8 +17,10 @@ function App() {
   return (
     <div className="App">
       {/* <Loader in={loader} /> */}
-      <Header />
+      {/* <Header />
       <Main />
+      <Footer /> */}
+      <Auth />
     </div>
   );
 }
