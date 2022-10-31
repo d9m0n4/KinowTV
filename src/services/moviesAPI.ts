@@ -12,6 +12,9 @@ export const MoviesAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getFilmById: builder.query({
+      query: ({ id }) => `/v2.2/films/${id}`,
+    }),
     getPremiers: builder.query({
       query: ({ year, month }) => `/v2.2/films/premieres?year=${year}&month=${month}`,
     }),
@@ -33,5 +36,10 @@ export const MoviesAPI = createApi({
   }),
 });
 
-export const { useGetPremiersQuery, useGetTopQuery, useGetVideosQuery, useGetImagesQuery } =
-  MoviesAPI;
+export const {
+  useGetPremiersQuery,
+  useGetTopQuery,
+  useGetVideosQuery,
+  useGetImagesQuery,
+  useGetFilmByIdQuery,
+} = MoviesAPI;

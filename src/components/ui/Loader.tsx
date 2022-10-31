@@ -8,14 +8,15 @@ const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
   opacity: 0,
   zIndex: 9,
+  display: 'none',
 };
 
 const transitionStyles = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 0 },
-  exited: { opacity: 0 },
-  unmounted: { opacity: 0 },
+  entering: { opacity: 1, display: 'block' },
+  entered: { opacity: 1, display: 'block' },
+  exiting: { opacity: 0, display: 'block' },
+  exited: { opacity: 0, display: 'none' },
+  unmounted: { opacity: 0, zIndex: 0, display: 'none' },
 };
 
 const transitionStylesText = {

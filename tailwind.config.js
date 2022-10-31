@@ -54,7 +54,8 @@ module.exports = {
       addComponents({
         '.menu': {
           background: 'linear-gradient(180deg, #1E2337 26.15%, rgba(30, 35, 55, 0) 100%)',
-          borderRadius: '8px',
+          borderBottomLeftRadius: '8px',
+          borderBottomRightRadius: '8px',
         },
         '.coverShadow': {
           background: 'linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, #1E2337 70.78%);',
@@ -79,6 +80,10 @@ module.exports = {
           position: 'absolute',
           top: 0,
           width: '90px',
+        },
+        '.blockGradient': {
+          background:
+            'radial-gradient(100% 73.05% at 100% 50%, rgba(0, 0, 0, 0) 54.69%, #1E2337 100%);',
         },
       });
     }),
