@@ -62,7 +62,13 @@ const Main = () => {
             <article>
               <h3>Рекомендуем посмотреть</h3>
               <div className="mt-6">
-                <Slider customNavigation direction="horizontal">
+                <Slider
+                  speed={1000}
+                  allowTouchMove={false}
+                  slidesPerGroup={2}
+                  slidesPerView={6}
+                  customNavigation
+                  direction="horizontal">
                   {data &&
                     data.films.map((film: any) => (
                       <SwiperSlide key={film.filmId} className="p-2 ">
@@ -93,7 +99,12 @@ const Main = () => {
             <article>
               <h3>Новинки</h3>
               <div className="mt-6">
-                <Slider customNavigation direction="horizontal">
+                <Slider
+                  slidesPerGroup={1}
+                  speed={1000}
+                  allowTouchMove={false}
+                  customNavigation
+                  direction="horizontal">
                   {data &&
                     data.films.map((film: any) => (
                       <SwiperSlide key={film.filmId} className="p-2 ">
@@ -124,7 +135,13 @@ const Main = () => {
             <article>
               <h3>С Высоким рейтингом</h3>
               <div className="mt-6">
-                <Slider customNavigation direction="horizontal">
+                <Slider
+                  speed={1000}
+                  allowTouchMove={false}
+                  slidesPerGroup={6}
+                  slidesPerView={6}
+                  customNavigation
+                  direction="horizontal">
                   {data &&
                     data.films.map((film: any) => (
                       <SwiperSlide key={film.filmId} className="p-2 ">

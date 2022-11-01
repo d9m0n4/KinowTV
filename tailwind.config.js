@@ -12,6 +12,7 @@ module.exports = {
       xl: '1440px',
     },
     colors: {
+      gray: '#D9D9D9',
       accentDark: '#1E2337',
       accentWrapper: 'rgba(30, 35, 55, .8)',
       accentPurple: {

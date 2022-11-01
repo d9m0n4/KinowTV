@@ -10,6 +10,10 @@ interface ISlider {
   direction?: 'horizontal' | 'vertical';
   autoplay?: boolean;
   reverseDirection?: boolean;
+  slidesPerView?: number;
+  slidesPerGroup?: number;
+  allowTouchMove?: boolean;
+  speed?: number;
 }
 
 const Slider: React.FC<ISlider> = ({
@@ -18,17 +22,22 @@ const Slider: React.FC<ISlider> = ({
   direction = 'vertical',
   autoplay = false,
   reverseDirection = false,
+  slidesPerView = 4,
+  slidesPerGroup = 4,
+  allowTouchMove = true,
+  speed = 3500,
 }) => {
   const swiperRef = React.useRef<SwiperType>();
 
   return (
     <div className="relative">
       <Swiper
+        allowTouchMove={allowTouchMove}
         lazy={{
           loadOnTransitionStart: false,
           loadPrevNext: false,
         }}
-        speed={3500}
+        speed={speed}
         direction={direction}
         modules={[Autoplay]}
         autoplay={
@@ -40,8 +49,8 @@ const Slider: React.FC<ISlider> = ({
         }
         loop
         onBeforeInit={(swiper) => (swiperRef.current = swiper)}
-        slidesPerView={4}
-        slidesPerGroup={4}
+        slidesPerView={slidesPerView}
+        slidesPerGroup={slidesPerGroup}
         className="h-full">
         {children}
       </Swiper>

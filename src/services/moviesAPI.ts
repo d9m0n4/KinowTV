@@ -15,6 +15,9 @@ export const MoviesAPI = createApi({
     getFilmById: builder.query({
       query: ({ id }) => `/v2.2/films/${id}`,
     }),
+    getSimilarsById: builder.query({
+      query: ({ id }) => `/v2.2/films/${id}/similars`,
+    }),
     getPremiers: builder.query({
       query: ({ year, month }) => `/v2.2/films/premieres?year=${year}&month=${month}`,
     }),
@@ -42,4 +45,5 @@ export const {
   useGetVideosQuery,
   useGetImagesQuery,
   useGetFilmByIdQuery,
+  useGetSimilarsByIdQuery,
 } = MoviesAPI;
