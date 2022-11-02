@@ -11,7 +11,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 
 import { SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import Slider from '../components/ui/Slider/Slider';

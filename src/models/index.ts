@@ -53,7 +53,7 @@ export interface IFilm {
   lastSync: Date;
 }
 
-declare module IBudget {
+declare module FilmBudget {
   export interface Item {
     type: string;
     amount: number;
@@ -68,4 +68,16 @@ declare module IBudget {
   }
 }
 
-export default IBudget;
+declare module Staff {
+  export interface IStaff {
+    staffId: number;
+    nameRu: string;
+    nameEn: string;
+    description: string;
+    posterUrl: string;
+    professionText: string;
+    professionKey: string;
+  }
+}
+
+export type { FilmBudget, Staff };

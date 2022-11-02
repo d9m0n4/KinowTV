@@ -10,22 +10,23 @@ import Button from '../components/ui/Button';
 import Slider from '../components/ui/Slider/Slider';
 import { SwiperSlide } from 'swiper/react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { Staff } from '../models';
 
 const Film = () => {
   const { id } = useParams();
 
   const { data, error, isLoading } = useGetFilmByIdQuery(id ?? skipToken);
   const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery({ id });
-  const { data: persons } = useGetStaffByFilmIdQuery({ id });
+  const { data: persons } = useGetStaffByFilmIdQuery(id ?? skipToken);
   const { data: filmBudget } = useGetFilmBudgetQuery(id ?? skipToken);
 
   const getActors = (actors: any) =>
     actors.filter((person: any) => person.professionKey === 'ACTOR');
 
-  const filmLength = (length: any) => {
-    const h = Math.floor(length / 60) + 'ч';
-    const m = Math.floor(length % 60) + 'мин';
-    return `${h} ${m}`;
+  const filmLength = (length: number) => {
+    const h = Math.floor(length / 60);
+    const m = Math.floor(length % 60);
+    return h < 1 ? `${m} мин` : `${h}ч ${m}мин`;
   };
 
   if (error) {
@@ -38,19 +39,28 @@ const Film = () => {
         <>
           <section className="h-[calc(100vh_-_88px)]">
             <div className="relative h-full">
-              <img className="block object-cover h-full w-full" src={data.coverUrl} alt="" />
+              <img
+                className="block object-cover h-full w-full"
+                src={data.coverUrl ? data.coverUrl : data.posterUrl}
+                alt=""
+              />
               <div className="absolute top-0 left-0 bottom-0 w-full gradient flex" />
               <div className="container mx-auto absolute inset-0  flex items-center">
-                <div className="w-2/5 mx-4 text-secondaryText text-2xl">
+                <div className="w-2/5 mx-4 text-lightGray text-2xl">
                   <h1 className="text-7xl font-bold">{data.nameRu}</h1>
-                  <div className="py-2 flex  mt-4 justify-between font-medium">
-                    <span className="bg-gray rounded-md py-1 px-2  text-base block text-accentDark">
-                      {data.ratingImdb.toFixed(1)}
+                  <div className="py-2 flex  mt-6 justify-between font-medium text-gray/75">
+                    <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
+                      {data.ratingImdb ? data.ratingImdb.toFixed(1) : 0}
                     </span>
                     <span>{data.year}</span>
                     <span>{data.genres[0].genre}</span>
-                    <span>{filmLength(data.filmLength)}</span>
-                    <span>{data.ratingAgeLimits}</span>
+                    {data.type === 'TV_SERIES' && <span>{'Сериал'}</span>}
+                    {data.filmLength && <span>{filmLength(data.filmLength)}</span>}
+                    {data.ratingAgeLimits && (
+                      <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
+                        {data.ratingAgeLimits.substring(3) + '+'}
+                      </span>
+                    )}
                   </div>
                   <div className="py-2 my-2">
                     <p>{data.shortDescription}</p>
@@ -61,8 +71,10 @@ const Film = () => {
                     </p>
                   </div>
                   <div className="flex justify-between py-2 mt-4">
-                    <Button className="px-32 py-2 bg-accentPurple rounded-lg">Смотреть</Button>
-                    <i className="px-4 py-3 bg-gray rounded-lg">
+                    <Button className="px-32 py-2 bg-accentPurple-light rounded-lg">
+                      Смотреть
+                    </Button>
+                    <i className="px-4 py-3 bg-accentDark/80 rounded-lg">
                       <svg
                         width="16"
                         height="20"
@@ -105,8 +117,8 @@ const Film = () => {
                   <div className="mt-4 ">
                     {filmBudget &&
                       filmBudget.items.map((item) => (
-                        <div className="flex justify-between">
-                          <h6>
+                        <div key={item.type} className="flex justify-between my-2">
+                          <h6 className="text-ligth/50">
                             {item.type === 'BUDGET'
                               ? 'Бюджет'
                               : item.type === 'WORLD'
@@ -136,12 +148,13 @@ const Film = () => {
                 <div className="mt-4 ">
                   <Slider
                     slidesPerView={8}
+                    slidesPerGroup={4}
                     speed={1000}
                     allowTouchMove={false}
                     customNavigation
                     direction="horizontal">
                     {persons &&
-                      getActors(persons).map((person: any) => (
+                      getActors(persons).map((person: Staff.IStaff) => (
                         <SwiperSlide key={person.staffId} className="p-2">
                           <Link
                             to={`/person/${person.staffId}`}
@@ -175,7 +188,7 @@ const Film = () => {
                 <div className="mt-4 ">
                   <Slider
                     slidesPerView={6}
-                    slidesPerGroup={1}
+                    slidesPerGroup={3}
                     speed={1000}
                     allowTouchMove={false}
                     customNavigation

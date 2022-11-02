@@ -1,5 +1,6 @@
+import { FilmBudget, Staff } from './../models/index';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import IBudget, { IFilm } from '../models';
+import { IFilm } from '../models';
 
 export const MoviesAPI = createApi({
   reducerPath: 'MoviesAPI',
@@ -19,7 +20,7 @@ export const MoviesAPI = createApi({
     getSimilarsById: builder.query({
       query: ({ id }) => `/v2.2/films/${id}/similars`,
     }),
-    getFilmBudget: builder.query<IBudget.BudgetItems, string>({
+    getFilmBudget: builder.query<FilmBudget.BudgetItems, string>({
       query: (id) => `/v2.2/films/${id}/box_office`,
     }),
     getPremiers: builder.query({
@@ -41,8 +42,14 @@ export const MoviesAPI = createApi({
       }),
     }),
 
-    getStaffByFilmId: builder.query({
-      query: ({ id }) => `/v1/staff/?filmId=${id}`,
+    getStaffByFilmId: builder.query<Staff.IStaff[], string>({
+      query: (id) => `/v1/staff/?filmId=${id}`,
+      transformResponse: (response: Staff.IStaff[]) => {
+        const filteredPersons = response.filter(
+          (item) => item.professionKey === 'ACTOR' && item.nameRu !== '',
+        );
+        return filteredPersons.slice(0, 10);
+      },
     }),
   }),
 });
