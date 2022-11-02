@@ -6,17 +6,12 @@ import Logo from '../ui/Logo';
 import SearchIcon from '../ui/SearchIcon';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    console.log(isMenuOpen);
-  }, [isMenuOpen]);
   return (
     <>
       <div className="bg-accentDark shadow-md">
         <div className="container mx-auto">
           <div className=" p-6 flex justify-between items-center">
-            <Hamburger onClick={() => setIsMenuOpen(!isMenuOpen)} />
+            <Hamburger onClick={() => console.log(123)} />
             <Logo />
             <div className="flex items-center">
               <div className="px-2 flex items-center mr-2">
@@ -30,7 +25,7 @@ const Header = () => {
             </div>
           </div>
           {/* меню */}
-          {isMenuOpen && (
+          {/* {isMenuOpen && (
             <div className="p-4 menu absolute z-10">
               <nav>
                 <ul className="flex">
@@ -67,7 +62,7 @@ const Header = () => {
                 </ul>
               </nav>
             </div>
-          )}
+          )} */}
           {/* меню */}
         </div>
       </div>

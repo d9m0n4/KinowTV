@@ -10,7 +10,7 @@ interface ISlider {
   direction?: 'horizontal' | 'vertical';
   autoplay?: boolean;
   reverseDirection?: boolean;
-  slidesPerView?: number;
+  slidesPerView?: number | 'auto';
   slidesPerGroup?: number;
   allowTouchMove?: boolean;
   speed?: number;
@@ -23,7 +23,7 @@ const Slider: React.FC<ISlider> = ({
   autoplay = false,
   reverseDirection = false,
   slidesPerView = 4,
-  slidesPerGroup = 4,
+  slidesPerGroup = 1,
   allowTouchMove = true,
   speed = 3500,
 }) => {

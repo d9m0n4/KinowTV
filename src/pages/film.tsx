@@ -1,15 +1,26 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useGetFilmByIdQuery, useGetSimilarsByIdQuery } from '../services/moviesAPI';
+import {
+  useGetFilmBudgetQuery,
+  useGetFilmByIdQuery,
+  useGetSimilarsByIdQuery,
+  useGetStaffByFilmIdQuery,
+} from '../services/moviesAPI';
 import Button from '../components/ui/Button';
 import Slider from '../components/ui/Slider/Slider';
 import { SwiperSlide } from 'swiper/react';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 const Film = () => {
   const { id } = useParams();
 
-  const { data, error, isLoading } = useGetFilmByIdQuery({ id });
+  const { data, error, isLoading } = useGetFilmByIdQuery(id ?? skipToken);
   const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery({ id });
+  const { data: persons } = useGetStaffByFilmIdQuery({ id });
+  const { data: filmBudget } = useGetFilmBudgetQuery(id ?? skipToken);
+
+  const getActors = (actors: any) =>
+    actors.filter((person: any) => person.professionKey === 'ACTOR');
 
   const filmLength = (length: any) => {
     const h = Math.floor(length / 60) + 'ч';
@@ -77,7 +88,7 @@ const Film = () => {
               <div className="grid gap-8 grid-cols-2 text-2xl text-secondaryText">
                 <div className="">
                   <div className="py-2">
-                    <div className="border-b-2 py-2">
+                    <div className="border-b-2 py-2 border-borderGray">
                       <h3 className="font-medium">Описание</h3>
                     </div>
                   </div>
@@ -87,12 +98,28 @@ const Film = () => {
                 </div>
                 <div className="">
                   <div className="py-2">
-                    <div className="border-b-2 py-2 ">
+                    <div className="border-b-2 py-2 border-borderGray">
                       <h3 className="font-medium">Информация</h3>
                     </div>
                   </div>
                   <div className="mt-4 ">
-                    <p>{data.description}</p>
+                    {filmBudget &&
+                      filmBudget.items.map((item) => (
+                        <div className="flex justify-between">
+                          <h6>
+                            {item.type === 'BUDGET'
+                              ? 'Бюджет'
+                              : item.type === 'WORLD'
+                              ? 'Сборы в Мире'
+                              : item.type === 'RUS'
+                              ? 'Сборы в России'
+                              : item.type === 'USA'
+                              ? 'Сборы в США'
+                              : 's'}
+                          </h6>
+                          <span>{`${item.amount} ${item.symbol}`}</span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -102,12 +129,37 @@ const Film = () => {
             <div className="container mx-auto">
               <div className="text-2xl text-secondaryText">
                 <div className="py-2">
-                  <div className="border-b-2 py-2 ">
+                  <div className="border-b-2 py-2 border-borderGray">
                     <h3 className="font-medium">Актеры</h3>
                   </div>
                 </div>
                 <div className="mt-4 ">
-                  <p>{data.description}</p>
+                  <Slider
+                    slidesPerView={8}
+                    speed={1000}
+                    allowTouchMove={false}
+                    customNavigation
+                    direction="horizontal">
+                    {persons &&
+                      getActors(persons).map((person: any) => (
+                        <SwiperSlide key={person.staffId} className="p-2">
+                          <Link
+                            to={`/person/${person.staffId}`}
+                            className="flex items-center justify-between flex-col">
+                            <div className="relative w-32 h-32 overflow-hidden rounded-full">
+                              <img
+                                src={person.posterUrl}
+                                alt="1"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="text-ellipsis overflow-hidden whitespace-nowrap">
+                              <span className="text-sm mt-2 font-normal"> {person.nameRu}</span>
+                            </div>
+                          </Link>
+                        </SwiperSlide>
+                      ))}
+                  </Slider>
                 </div>
               </div>
             </div>
@@ -116,7 +168,7 @@ const Film = () => {
             <div className="container mx-auto">
               <div className="text-2xl text-secondaryText">
                 <div className="py-2">
-                  <div className="border-b-2 py-2 ">
+                  <div className="border-b-2 py-2 border-borderGray">
                     <h3 className="font-medium">Похожие</h3>
                   </div>
                 </div>

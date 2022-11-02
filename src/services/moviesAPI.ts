@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import IBudget, { IFilm } from '../models';
 
 export const MoviesAPI = createApi({
   reducerPath: 'MoviesAPI',
@@ -12,11 +13,14 @@ export const MoviesAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getFilmById: builder.query({
-      query: ({ id }) => `/v2.2/films/${id}`,
+    getFilmById: builder.query<IFilm, string>({
+      query: (id) => `/v2.2/films/${id}`,
     }),
     getSimilarsById: builder.query({
       query: ({ id }) => `/v2.2/films/${id}/similars`,
+    }),
+    getFilmBudget: builder.query<IBudget.BudgetItems, string>({
+      query: (id) => `/v2.2/films/${id}/box_office`,
     }),
     getPremiers: builder.query({
       query: ({ year, month }) => `/v2.2/films/premieres?year=${year}&month=${month}`,
@@ -36,6 +40,10 @@ export const MoviesAPI = createApi({
         },
       }),
     }),
+
+    getStaffByFilmId: builder.query({
+      query: ({ id }) => `/v1/staff/?filmId=${id}`,
+    }),
   }),
 });
 
@@ -46,4 +54,6 @@ export const {
   useGetImagesQuery,
   useGetFilmByIdQuery,
   useGetSimilarsByIdQuery,
+  useGetStaffByFilmIdQuery,
+  useGetFilmBudgetQuery,
 } = MoviesAPI;
