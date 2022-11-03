@@ -1,4 +1,4 @@
-import { FilmBudget, Staff } from './../models/index';
+import { FilmBudget, IPerson, Staff } from './../models/index';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IFilm } from '../models';
 
@@ -51,6 +51,9 @@ export const MoviesAPI = createApi({
         return filteredPersons.slice(0, 10);
       },
     }),
+    getStaffByPersonId: builder.query<IPerson.PersonInfo, string>({
+      query: (id) => `/v1/staff/${id}`,
+    }),
   }),
 });
 
@@ -63,4 +66,5 @@ export const {
   useGetSimilarsByIdQuery,
   useGetStaffByFilmIdQuery,
   useGetFilmBudgetQuery,
+  useGetStaffByPersonIdQuery,
 } = MoviesAPI;

@@ -16,6 +16,7 @@ code {
 
 .App {
   background-color: #1e2337;
+  min-height: 100vh;
 }
 
 .gradient::before {

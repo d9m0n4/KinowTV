@@ -80,4 +80,47 @@ declare module Staff {
   }
 }
 
-export type { FilmBudget, Staff };
+declare module IPerson {
+  export interface Spous {
+    personId: number;
+    name: string;
+    divorced: boolean;
+    divorcedReason: string;
+    sex: string;
+    children: number;
+    webUrl: string;
+    relation: string;
+  }
+
+  export interface Film {
+    filmId: number;
+    nameRu: string;
+    nameEn: string;
+    rating: string;
+    general: boolean;
+    description: string;
+    professionKey: string;
+  }
+
+  export interface PersonInfo {
+    personId: number;
+    webUrl: string;
+    nameRu: string;
+    nameEn: string;
+    sex: string;
+    posterUrl: string;
+    growth: number;
+    birthday: string;
+    death?: any;
+    age: number;
+    birthplace: string;
+    deathplace?: any;
+    spouses: Spous[];
+    hasAwards: number;
+    profession: string;
+    facts: string[];
+    films: Film[];
+  }
+}
+
+export type { FilmBudget, Staff, IPerson };

@@ -6,6 +6,7 @@ import Main from './pages/main';
 import Loader from './components/ui/Loader';
 import Auth from './pages/auth';
 import Film from './pages/film';
+import Person from './pages/person';
 
 function App() {
   const [loader, setLoader] = React.useState(true);
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/film/:id" element={<Film />} />
+        <Route path="/person/:id" element={<Person />} />
       </Routes>
       <Footer />
       {/* <Auth /> */}

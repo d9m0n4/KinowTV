@@ -127,9 +127,9 @@ const Film = () => {
                               ? 'Сборы в России'
                               : item.type === 'USA'
                               ? 'Сборы в США'
-                              : 's'}
+                              : 'Маркетинг'}
                           </h6>
-                          <span>{`${item.amount} ${item.symbol}`}</span>
+                          <span>{`${item.symbol} ${item.amount}`}</span>
                         </div>
                       ))}
                   </div>
@@ -195,10 +195,14 @@ const Film = () => {
                     direction="horizontal">
                     {similars &&
                       similars.items.map((film: any) => (
-                        <SwiperSlide key={film.filmId} className="p-2 ">
-                          <Link to={`/film/${film.filmId}`}>
-                            <div className="relative">
-                              <img src={film.posterUrlPreview} alt="1" className="rounded-md " />
+                        <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
+                          <Link to={`/film/${film.filmId}`} className="flex flex-col h-full">
+                            <div className="relative flex-1">
+                              <img
+                                src={film.posterUrlPreview}
+                                alt="1"
+                                className="rounded-md h-full object-cover"
+                              />
                             </div>
                             <div className="text-ellipsis overflow-hidden whitespace-nowrap">
                               <span className="text-sm mt-2 font-normal"> {film.nameRu}</span>
