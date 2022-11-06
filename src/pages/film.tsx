@@ -11,6 +11,7 @@ import Slider from '../components/ui/Slider/Slider';
 import { SwiperSlide } from 'swiper/react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { Staff } from '../models';
+import PersonAvatar from '../components/shared/PersonAvatar';
 
 const Film = () => {
   const { id } = useParams();
@@ -108,17 +109,17 @@ const Film = () => {
                     <p>{data.description}</p>
                   </div>
                 </div>
-                <div className="">
-                  <div className="py-2">
-                    <div className="border-b-2 py-2 border-borderGray">
-                      <h3 className="font-medium">Информация</h3>
+                {filmBudget && filmBudget?.items.length > 0 && (
+                  <div className="">
+                    <div className="py-2">
+                      <div className="border-b-2 py-2 border-borderGray">
+                        <h3 className="font-medium">Информация</h3>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-4 ">
-                    {filmBudget &&
-                      filmBudget.items.map((item) => (
-                        <div key={item.type} className="flex justify-between my-2">
-                          <h6 className="text-ligth/50">
+                    <div className="mt-4 ">
+                      {filmBudget.items.map((item) => (
+                        <div key={item.type} className="flex justify-between my-2 text-base">
+                          <h6 className="text-ligth/50 ">
                             {item.type === 'BUDGET'
                               ? 'Бюджет'
                               : item.type === 'WORLD'
@@ -132,8 +133,9 @@ const Film = () => {
                           <span>{`${item.symbol} ${item.amount}`}</span>
                         </div>
                       ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </section>
@@ -160,11 +162,7 @@ const Film = () => {
                             to={`/person/${person.staffId}`}
                             className="flex items-center justify-between flex-col">
                             <div className="relative w-32 h-32 overflow-hidden rounded-full">
-                              <img
-                                src={person.posterUrl}
-                                alt="1"
-                                className="w-full h-full object-cover"
-                              />
+                              <PersonAvatar src={person.posterUrl} alt={person.nameRu} />
                             </div>
                             <div className="text-ellipsis overflow-hidden whitespace-nowrap">
                               <span className="text-sm mt-2 font-normal"> {person.nameRu}</span>

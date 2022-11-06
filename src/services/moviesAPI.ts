@@ -53,6 +53,11 @@ export const MoviesAPI = createApi({
     }),
     getStaffByPersonId: builder.query<IPerson.PersonInfo, string>({
       query: (id) => `/v1/staff/${id}`,
+      transformResponse: (response: IPerson.PersonInfo) => {
+        let o = response.films.map((film) => [film['filmId'], film]);
+        let u = new Map<number, IPerson.Film[]>(o).values();
+        return u;
+      },
     }),
   }),
 });
