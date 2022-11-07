@@ -10,6 +10,8 @@ const Person = () => {
   const { id } = useParams();
   const { data } = useGetStaffByPersonIdQuery(id ?? skipToken);
 
+  const [isActiveTab, setIsActiveTab] = React.useState(false);
+
   return (
     <>
       {data && (
@@ -117,10 +119,14 @@ const Person = () => {
                 {data.films.length > 0 && (
                   <div className="my-2 ">
                     <h3 className="text-2xl font-medium py-2">Фильмография</h3>
+
+                    {/* <Tabs /> */}
+
                     <ul>
-                      {[uniqueObjArray(data.films, 'filmId')].map((film) => (
-                        <li className="py-2" key={film.filmId}>
-                          {film.nameRu}
+                      {data.films.map((film) => (
+                        <li className="py-2 flex shadow-gray shadow-md" key={film.filmId}>
+                          <h4>{film.nameRu}</h4>
+                          <span>{film.rating}</span>
                         </li>
                       ))}
                     </ul>
