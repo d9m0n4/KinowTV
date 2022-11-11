@@ -3,10 +3,10 @@ import { Route, Router, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import Main from './pages/main';
-import Loader from './components/ui/Loader';
 import Auth from './pages/auth';
 import Film from './pages/film';
 import Person from './pages/person';
+import Loader from './components/shared/Loader';
 
 function App() {
   const [loader, setLoader] = React.useState(true);

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  useGetFilmsByFiltersQuery,
   useGetImagesQuery,
   useGetPremiersQuery,
   useGetTopQuery,
@@ -17,6 +18,11 @@ import Slider from '../components/ui/Slider/Slider';
 
 const Main = () => {
   const { data, error, isLoading } = useGetTopQuery({ type: 'TOP_250_BEST_FILMS', page: 1 });
+  const {
+    data: f,
+    error: e,
+    isLoading: l,
+  } = useGetFilmsByFiltersQuery({ yearFrom: 2022, type: 'FILM', genres: 1 });
   return (
     <>
       <section className="bg-accentDark h-[calc(100vh_-_88px)]">

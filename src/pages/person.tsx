@@ -2,16 +2,13 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PersonAvatar from '../components/shared/PersonAvatar';
-import Button from '../components/ui/Button';
-import { IPerson } from '../models';
+import Button from '../components/shared/Button';
 import { useGetStaffByPersonIdQuery } from '../services/moviesAPI';
 import { uniqueObjArray } from '../utils/uniqueObjArray';
 
 const Person = () => {
   const { id } = useParams();
   const { data } = useGetStaffByPersonIdQuery(id ?? skipToken);
-
-  const [isActiveTab, setIsActiveTab] = React.useState(false);
 
   return (
     <>
@@ -53,15 +50,15 @@ const Person = () => {
                           </div>
                         </>
                       )}
-                      {data.age && (
+                      {data.age > 0 && (
                         <>
                           <div className="my-2 flex">
                             <h6 className="w-48">Возраст:</h6>
-                            <span>{data.age}</span>
+                            <span>{data.age > 0 ? data.age : '-'}</span>
                           </div>
                         </>
                       )}
-                      {data.growth && (
+                      {data.growth > 0 && (
                         <>
                           <div className="my-2 flex">
                             <h6 className="w-48">Рост:</h6>
@@ -167,10 +164,12 @@ const Person = () => {
                           className="p-4  shadow-accentWrapper rounded-lg shadow-md hover:shadow-none transition-all"
                           key={film.filmId}>
                           <Link to={`/film/${film.filmId}`} className="flex justify-between">
-                            <h4 className="font-medium">{film.nameRu}</h4>
-                            <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
-                              {film.rating}
-                            </span>
+                            <h4 className="font-medium">{film.nameRu || film.nameEn}</h4>
+                            {film.rating && (
+                              <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
+                                {film.rating}
+                              </span>
+                            )}
                           </Link>
                         </li>
                       ))}

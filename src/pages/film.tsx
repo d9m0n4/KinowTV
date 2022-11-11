@@ -6,12 +6,12 @@ import {
   useGetSimilarsByIdQuery,
   useGetStaffByFilmIdQuery,
 } from '../services/moviesAPI';
-import Button from '../components/ui/Button';
+import Button from '../components/shared/Button';
 import Slider from '../components/ui/Slider/Slider';
 import { SwiperSlide } from 'swiper/react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
-import { Staff } from '../models';
 import PersonAvatar from '../components/shared/PersonAvatar';
+import { IStaff } from '../models/staff';
 
 const Film = () => {
   const { id } = useParams();
@@ -63,14 +63,16 @@ const Film = () => {
                       </span>
                     )}
                   </div>
-                  <div className="py-2 my-2">
-                    <p>{data.shortDescription}</p>
-                  </div>
-                  <div className="py-2">
-                    <p>
-                      Отзывы: <span>{data.reviewsCount}</span>
-                    </p>
-                  </div>
+                  {data.shortDescription && (
+                    <div className="py-2 my-2">
+                      <p>{data.shortDescription}</p>
+                    </div>
+                  )}
+                  {data.slogan && (
+                    <div className="py-2">
+                      <p className="italic text-base text-secondaryText/60">{data.slogan}</p>
+                    </div>
+                  )}
                   <div className="flex justify-between py-2 mt-4">
                     <Button className="px-32 py-2 bg-accentPurple-light rounded-lg">
                       Смотреть
@@ -98,8 +100,8 @@ const Film = () => {
           </section>
           <section className="my-8 py-2">
             <div className="container mx-auto">
-              <div className="grid gap-8 grid-cols-2 text-2xl text-secondaryText">
-                <div className="">
+              <div className="flex gap-8 text-2xl text-secondaryText">
+                <div className="mb-4 flex-1">
                   <div className="py-2">
                     <div className="border-b-2 py-2 border-borderGray">
                       <h3 className="font-medium">Описание</h3>
@@ -110,7 +112,7 @@ const Film = () => {
                   </div>
                 </div>
                 {filmBudget && filmBudget?.items.length > 0 && (
-                  <div className="">
+                  <div className="mb-4 flex-1">
                     <div className="py-2">
                       <div className="border-b-2 py-2 border-borderGray">
                         <h3 className="font-medium">Информация</h3>
@@ -156,7 +158,7 @@ const Film = () => {
                     customNavigation
                     direction="horizontal">
                     {persons &&
-                      getActors(persons).map((person: Staff.IStaff) => (
+                      getActors(persons).map((person: IStaff) => (
                         <SwiperSlide key={person.staffId} className="p-2">
                           <Link
                             to={`/person/${person.staffId}`}
@@ -175,24 +177,24 @@ const Film = () => {
               </div>
             </div>
           </section>
-          <section className="my-8 py-2">
-            <div className="container mx-auto">
-              <div className="text-2xl text-secondaryText">
-                <div className="py-2">
-                  <div className="border-b-2 py-2 border-borderGray">
-                    <h3 className="font-medium">Похожие</h3>
+          {similars && (
+            <section className="my-8 py-2">
+              <div className="container mx-auto">
+                <div className="text-2xl text-secondaryText">
+                  <div className="py-2">
+                    <div className="border-b-2 py-2 border-borderGray">
+                      <h3 className="font-medium">Похожие</h3>
+                    </div>
                   </div>
-                </div>
-                <div className="mt-4 ">
-                  <Slider
-                    slidesPerView={6}
-                    slidesPerGroup={3}
-                    speed={1000}
-                    allowTouchMove={false}
-                    customNavigation
-                    direction="horizontal">
-                    {similars &&
-                      similars.items.map((film: any) => (
+                  <div className="mt-4 ">
+                    <Slider
+                      slidesPerView={6}
+                      slidesPerGroup={3}
+                      speed={1000}
+                      allowTouchMove={false}
+                      customNavigation
+                      direction="horizontal">
+                      {similars.items.map((film: any) => (
                         <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
                           <Link to={`/film/${film.filmId}`} className="flex flex-col h-full">
                             <div className="relative flex-1">
@@ -208,11 +210,12 @@ const Film = () => {
                           </Link>
                         </SwiperSlide>
                       ))}
-                  </Slider>
+                    </Slider>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
         </>
       )}
     </>

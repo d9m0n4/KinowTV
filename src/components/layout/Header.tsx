@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import Button from '../ui/Button';
-import Hamburger from '../ui/Hamburger';
+import Button from '../shared/Button';
+import Hamburger from '../shared/Hamburger';
 import Logo from '../ui/Logo';
 import SearchIcon from '../ui/SearchIcon';
 

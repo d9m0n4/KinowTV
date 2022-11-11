@@ -1,6 +1,23 @@
-import { FilmBudget, IPerson, Staff } from './../models/index';
+import { IBudget } from './../models/filmBudget';
+import { IPersonInfo } from './../models/persone';
+import { ISimilars } from './../models/similars';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IFilm } from '../models';
+import { IFilm } from '../models/film';
+import { IStaff } from '../models/staff';
+
+interface IFilmFilters {
+  countries?: number;
+  genres?: number;
+  order?: 'YEAR' | 'RATING' | 'NUM_VOTE';
+  type?: 'FILM' | 'TV_SHOW' | 'TV_SERIES' | 'MINI_SERIAL' | 'ALL'; //enums
+  ratingFrom?: number;
+  ratingTo?: number;
+  yearFrom?: number;
+  yearTo?: number;
+  imdbId?: number;
+  keyword?: string;
+  page?: number;
+}
 
 export const MoviesAPI = createApi({
   reducerPath: 'MoviesAPI',
@@ -19,8 +36,37 @@ export const MoviesAPI = createApi({
     }),
     getSimilarsById: builder.query({
       query: ({ id }) => `/v2.2/films/${id}/similars`,
+      transformResponse: (response: ISimilars) => {
+        return response.items.length > 0 ? response : null;
+      },
     }),
-    getFilmBudget: builder.query<FilmBudget.BudgetItems, string>({
+    getFilmsByFilters: builder.query<IBudget, IFilmFilters>({
+      query: ({
+        page,
+        order,
+        type,
+        ratingFrom,
+        ratingTo,
+        yearFrom,
+        yearTo,
+        countries,
+        genres,
+      }) => ({
+        url: `/v2.2/films`,
+        params: {
+          countries,
+          genres,
+          order,
+          type,
+          ratingFrom,
+          ratingTo,
+          yearFrom,
+          yearTo,
+          page,
+        },
+      }),
+    }),
+    getFilmBudget: builder.query<IBudget, string>({
       query: (id) => `/v2.2/films/${id}/box_office`,
     }),
     getPremiers: builder.query({
@@ -42,18 +88,18 @@ export const MoviesAPI = createApi({
       }),
     }),
 
-    getStaffByFilmId: builder.query<Staff.IStaff[], string>({
+    getStaffByFilmId: builder.query<IStaff[], string>({
       query: (id) => `/v1/staff/?filmId=${id}`,
-      transformResponse: (response: Staff.IStaff[]) => {
+      transformResponse: (response: IStaff[]) => {
         const filteredPersons = response.filter(
           (item) => item.professionKey === 'ACTOR' && item.nameRu !== '',
         );
         return filteredPersons.slice(0, 10);
       },
     }),
-    getStaffByPersonId: builder.query<IPerson.PersonInfo, string>({
+    getStaffByPersonId: builder.query<IPersonInfo, string>({
       query: (id) => `/v1/staff/${id}`,
-      transformResponse: (response: IPerson.PersonInfo) => {
+      transformResponse: (response: IPersonInfo) => {
         const filmsData = response.films.slice(0, 10);
         return { ...response, films: filmsData };
         // let o = response.films.map((film) => [film['filmId'], film]);
@@ -74,4 +120,5 @@ export const {
   useGetStaffByFilmIdQuery,
   useGetFilmBudgetQuery,
   useGetStaffByPersonIdQuery,
+  useGetFilmsByFiltersQuery,
 } = MoviesAPI;
