@@ -3,23 +3,29 @@ import { Link, useParams } from 'react-router-dom';
 import {
   useGetFilmBudgetQuery,
   useGetFilmByIdQuery,
+  useGetSerialSeasonsQuery,
   useGetSimilarsByIdQuery,
   useGetStaffByFilmIdQuery,
 } from '../services/moviesAPI';
 import Button from '../components/shared/Button';
-import Slider from '../components/ui/Slider/Slider';
-import { SwiperSlide } from 'swiper/react';
+import { SwiperSlide, useSwiperSlide } from 'swiper/react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import PersonAvatar from '../components/shared/PersonAvatar';
 import { IStaff } from '../models/staff';
+import Slider from '../components/shared/Slider/Slider';
+import { Episode, ISeasons } from '../models/serailSeasons';
 
 const Film = () => {
   const { id } = useParams();
+
+  const [activeSeason, setActiveSeason] = React.useState<Episode[]>([]);
 
   const { data, error, isLoading } = useGetFilmByIdQuery(id ?? skipToken);
   const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery({ id });
   const { data: persons } = useGetStaffByFilmIdQuery(id ?? skipToken);
   const { data: filmBudget } = useGetFilmBudgetQuery(id ?? skipToken);
+
+  const { data: seasons } = useGetSerialSeasonsQuery(id ?? skipToken, { skip: !data?.serial });
 
   const getActors = (actors: any) =>
     actors.filter((person: any) => person.professionKey === 'ACTOR');
@@ -29,6 +35,10 @@ const Film = () => {
     const m = Math.floor(length % 60);
     return h < 1 ? `${m} мин` : `${h}ч ${m}мин`;
   };
+
+  React.useEffect(() => {
+    console.log(activeSeason);
+  }, [activeSeason]);
 
   if (error) {
     return <div>Фильм не найден</div>;
@@ -51,7 +61,7 @@ const Film = () => {
                   <h1 className="text-7xl font-bold">{data.nameRu}</h1>
                   <div className="py-2 flex  mt-6 justify-between font-medium text-gray/75">
                     <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
-                      {data.ratingImdb ? data.ratingImdb.toFixed(1) : 0}
+                      {data.ratingImdb ? data.ratingImdb.toFixed(1) : data.ratingKinopoisk}
                     </span>
                     <span>{data.year}</span>
                     <span>{data.genres[0].genre}</span>
@@ -98,19 +108,70 @@ const Film = () => {
               </div>
             </div>
           </section>
+          {seasons && (
+            <section className="my-8 py-2">
+              <div className="container mx-auto">
+                {
+                  <Slider
+                    slidesPerView={4}
+                    slidesPerGroup={4}
+                    speed={1000}
+                    allowTouchMove={false}
+                    customNavigation
+                    direction="horizontal">
+                    {seasons.items.map((s) => (
+                      <SwiperSlide
+                        onClick={() => setActiveSeason(s.episodes)}
+                        key={s.number * Math.random()}
+                        className="p-2">
+                        {({ isActive }: { isActive: any }) => (
+                          <div>
+                            <div>Current slide is {isActive ? 'active' : 'not active'}</div>
+                            <div>Сезон {s.number}</div>
+                          </div>
+                        )}
+                      </SwiperSlide>
+                    ))}
+                  </Slider>
+                }
+                {activeSeason && (
+                  <Slider
+                    slidesPerView={4}
+                    slidesPerGroup={4}
+                    speed={1000}
+                    allowTouchMove={false}
+                    customNavigation
+                    direction="horizontal">
+                    {activeSeason.map((episode) => (
+                      <SwiperSlide
+                        key={episode.episodeNumber + episode.releaseDate + Math.random()}>
+                        <div>
+                          <div>{episode.episodeNumber}</div>
+                          <div>{episode.nameRu}</div>
+                          <div>{episode.releaseDate}</div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Slider>
+                )}
+              </div>
+            </section>
+          )}
           <section className="my-8 py-2">
             <div className="container mx-auto">
               <div className="flex gap-8 text-2xl text-secondaryText">
-                <div className="mb-4 flex-1">
-                  <div className="py-2">
-                    <div className="border-b-2 py-2 border-borderGray">
-                      <h3 className="font-medium">Описание</h3>
+                {data.description && (
+                  <div className="mb-4 flex-1">
+                    <div className="py-2">
+                      <div className="border-b-2 py-2 border-borderGray">
+                        <h3 className="font-medium">Описание</h3>
+                      </div>
+                    </div>
+                    <div className="mt-4 ">
+                      <p>{data.description}</p>
                     </div>
                   </div>
-                  <div className="mt-4 ">
-                    <p>{data.description}</p>
-                  </div>
-                </div>
+                )}
                 {filmBudget && filmBudget?.items.length > 0 && (
                   <div className="mb-4 flex-1">
                     <div className="py-2">

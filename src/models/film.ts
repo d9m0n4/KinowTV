@@ -52,3 +52,25 @@ export interface IFilm {
   has3D: boolean;
   lastSync: Date;
 }
+
+export interface FilteredFilm {
+  kinopoiskId: number;
+  imdbId: string;
+  nameRu: string;
+  nameEn?: any;
+  nameOriginal: string;
+  countries: Country[];
+  genres: Genre[];
+  ratingKinopoisk: number;
+  ratingImdb?: number;
+  year: number;
+  type: string;
+  posterUrl: string;
+  posterUrlPreview: string;
+}
+
+export interface FilteredFilms {
+  total: number;
+  totalPages: number;
+  items: FilteredFilm[];
+}

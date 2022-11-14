@@ -2,8 +2,9 @@ import { IBudget } from './../models/filmBudget';
 import { IPersonInfo } from './../models/persone';
 import { ISimilars } from './../models/similars';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IFilm } from '../models/film';
+import { FilteredFilms, IFilm } from '../models/film';
 import { IStaff } from '../models/staff';
+import { ISeasons } from '../models/serailSeasons';
 
 interface IFilmFilters {
   countries?: number;
@@ -40,7 +41,7 @@ export const MoviesAPI = createApi({
         return response.items.length > 0 ? response : null;
       },
     }),
-    getFilmsByFilters: builder.query<IBudget, IFilmFilters>({
+    getFilmsByFilters: builder.query<FilteredFilms, IFilmFilters>({
       query: ({
         page,
         order,
@@ -65,6 +66,10 @@ export const MoviesAPI = createApi({
           page,
         },
       }),
+      transformResponse: (response: FilteredFilms) => {
+        const data = response.items.filter((film) => film.nameRu !== null);
+        return { ...response, items: data };
+      },
     }),
     getFilmBudget: builder.query<IBudget, string>({
       query: (id) => `/v2.2/films/${id}/box_office`,
@@ -107,6 +112,10 @@ export const MoviesAPI = createApi({
         // return u;
       },
     }),
+
+    getSerialSeasons: builder.query<ISeasons, string>({
+      query: (id) => `v2.2/films/${id}/seasons`,
+    }),
   }),
 });
 
@@ -121,4 +130,5 @@ export const {
   useGetFilmBudgetQuery,
   useGetStaffByPersonIdQuery,
   useGetFilmsByFiltersQuery,
+  useGetSerialSeasonsQuery,
 } = MoviesAPI;

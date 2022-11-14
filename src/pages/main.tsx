@@ -7,14 +7,12 @@ import {
   useGetVideosQuery,
 } from '../services/moviesAPI';
 import cover from '../assets/1.jpg';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 
 import { SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
-import Slider from '../components/ui/Slider/Slider';
+import Slider from '../components/shared/Slider/Slider';
 
 const Main = () => {
   const { data, error, isLoading } = useGetTopQuery({ type: 'TOP_250_BEST_FILMS', page: 1 });
@@ -22,7 +20,7 @@ const Main = () => {
     data: f,
     error: e,
     isLoading: l,
-  } = useGetFilmsByFiltersQuery({ yearFrom: 2022, type: 'FILM', genres: 1 });
+  } = useGetFilmsByFiltersQuery({ yearFrom: 2022, type: 'FILM', genres: 2, order: 'RATING' });
   return (
     <>
       <section className="bg-accentDark h-[calc(100vh_-_88px)]">
@@ -100,25 +98,29 @@ const Main = () => {
               </div>
             </article>
           </div>
-          <div className="text-2xl font-bold text-ligth mt-6">
-            <article>
-              <h3>Новинки</h3>
-              <div className="mt-6">
-                <Slider
-                  slidesPerGroup={1}
-                  speed={1000}
-                  allowTouchMove={false}
-                  customNavigation
-                  direction="horizontal">
-                  {data &&
-                    data.films.map((film: any) => (
-                      <SwiperSlide key={film.filmId} className="p-2 ">
-                        <Link to={`/film/${film.filmId}`}>
-                          <div className="relative">
-                            <img src={film.posterUrlPreview} alt="1" className="rounded-md " />
+          {f && (
+            <div className="text-2xl font-bold text-ligth mt-6">
+              <article>
+                <h3>Новинки</h3>
+                <div className="mt-6">
+                  <Slider
+                    slidesPerGroup={1}
+                    speed={1000}
+                    allowTouchMove={false}
+                    customNavigation
+                    direction="horizontal">
+                    {f.items.map((film) => (
+                      <SwiperSlide key={film.kinopoiskId} className="p-2 h-auto flex flex-col">
+                        <Link to={`/film/${film.kinopoiskId}`} className="flex flex-col h-full">
+                          <div className="relative flex-1">
+                            <img
+                              src={film.posterUrlPreview}
+                              alt="1"
+                              className="rounded-md h-full object-cover"
+                            />
                             <div className="absolute  inset-0  opacity-0 hover:opacity-100 transition-all">
                               <div className="inline-block py-2 px-4 bg-accentPurple rounded-lg">
-                                <div>{film.rating}</div>
+                                <div>{film.ratingImdb || film.ratingKinopoisk}</div>
                               </div>
                               <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between py-2 px-4 text-sm font-normal bg-accentWrapper">
                                 <span>{film.year}</span>
@@ -132,10 +134,11 @@ const Main = () => {
                         </Link>
                       </SwiperSlide>
                     ))}
-                </Slider>
-              </div>
-            </article>
-          </div>
+                  </Slider>
+                </div>
+              </article>
+            </div>
+          )}
           <div className="text-2xl font-bold text-ligth mt-6">
             <article>
               <h3>С Высоким рейтингом</h3>
