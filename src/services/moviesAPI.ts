@@ -2,15 +2,16 @@ import { IBudget } from './../models/filmBudget';
 import { IPersonInfo } from './../models/persone';
 import { ISimilars } from './../models/similars';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { FilteredFilms, IFilm } from '../models/film';
+import { FilteredFilms, IFilm, TOPFilms } from '../models/film';
 import { IStaff } from '../models/staff';
 import { ISeasons } from '../models/serailSeasons';
+import { FilmOrder, FilmTOP, FilmType } from '../constants/film';
 
 interface IFilmFilters {
   countries?: number;
   genres?: number;
-  order?: 'YEAR' | 'RATING' | 'NUM_VOTE';
-  type?: 'FILM' | 'TV_SHOW' | 'TV_SERIES' | 'MINI_SERIAL' | 'ALL'; //enums
+  order?: FilmOrder;
+  type?: FilmType;
   ratingFrom?: number;
   ratingTo?: number;
   yearFrom?: number;
@@ -35,8 +36,8 @@ export const MoviesAPI = createApi({
     getFilmById: builder.query<IFilm, string>({
       query: (id) => `/v2.2/films/${id}`,
     }),
-    getSimilarsById: builder.query({
-      query: ({ id }) => `/v2.2/films/${id}/similars`,
+    getSimilarsById: builder.query<ISimilars | null, string>({
+      query: (id) => `/v2.2/films/${id}/similars`,
       transformResponse: (response: ISimilars) => {
         return response.items.length > 0 ? response : null;
       },
@@ -77,7 +78,7 @@ export const MoviesAPI = createApi({
     getPremiers: builder.query({
       query: ({ year, month }) => `/v2.2/films/premieres?year=${year}&month=${month}`,
     }),
-    getTop: builder.query({
+    getTop: builder.query<TOPFilms, { type: FilmTOP; page: number }>({
       query: ({ type, page }) => `/v2.2/films/top?type=${type}&page=${page}`,
     }),
     getVideos: builder.query({

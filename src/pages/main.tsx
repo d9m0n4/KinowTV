@@ -13,14 +13,24 @@ import { SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import Slider from '../components/shared/Slider/Slider';
+import FilmSlide from '../components/shared/FilmSlide';
+import { FilmOrder, FilmTOP, FilmType } from '../constants/film';
 
 const Main = () => {
-  const { data, error, isLoading } = useGetTopQuery({ type: 'TOP_250_BEST_FILMS', page: 1 });
+  const { data, error, isLoading } = useGetTopQuery({
+    type: FilmTOP.TOP_100_POPULAR_FILMS,
+    page: 1,
+  });
   const {
     data: f,
     error: e,
     isLoading: l,
-  } = useGetFilmsByFiltersQuery({ yearFrom: 2022, type: 'FILM', genres: 2, order: 'RATING' });
+  } = useGetFilmsByFiltersQuery({
+    yearFrom: 2022,
+    type: FilmType.Film,
+    genres: 2,
+    order: FilmOrder.YEAR,
+  });
   return (
     <>
       <section className="bg-accentDark h-[calc(100vh_-_88px)]">
@@ -29,77 +39,71 @@ const Main = () => {
           <div className="absolute inset-0 bg-accentDark opacity-30"></div>
           <div className="absolute coverShadow left-0 top-0 bottom-0 w-1/4"></div>
           <div className="container mx-auto absolute inset-0">
-            <div className="absolute right-0 top-0 bottom-0 flex">
-              <Slider autoplay>
-                {data &&
-                  data.films.map((film: any) => (
-                    <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
-                      <Link to={`/film/${film.filmId}`}>
-                        <div className="relative">
-                          <img src={film.posterUrlPreview} alt="1" className="rounded-md " />
-                        </div>
-                      </Link>
-                    </SwiperSlide>
-                  ))}
-              </Slider>
-              <Slider autoplay reverseDirection>
-                {data &&
-                  data.films.map((film: any) => (
-                    <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
-                      <Link to={`/film/${film.filmId}`}>
-                        <div className="relative">
-                          <img src={film.posterUrlPreview} alt="1" className="rounded-md " />
-                        </div>
-                      </Link>
-                    </SwiperSlide>
-                  ))}
-              </Slider>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-16">
-        <div className="container mx-auto my-4">
-          <div className="text-2xl font-bold text-ligth mt-6">
-            <article>
-              <h3>Рекомендуем посмотреть</h3>
-              <div className="mt-6">
-                <Slider
-                  speed={1000}
-                  allowTouchMove={false}
-                  slidesPerGroup={2}
-                  slidesPerView={6}
-                  customNavigation
-                  direction="horizontal">
+            {data && (
+              <div className="absolute right-0 top-0 bottom-0 flex">
+                <Slider autoplay>
                   {data &&
-                    data.films.map((film: any) => (
-                      <SwiperSlide key={film.filmId} className="p-2 ">
+                    data.films.map((film) => (
+                      <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
                         <Link to={`/film/${film.filmId}`}>
-                          <div className="relative">
-                            <img src={film.posterUrlPreview} alt="1" className="rounded-md " />
-                            <div className="absolute  inset-0  opacity-0 hover:opacity-100 transition-all">
-                              <div className="inline-block py-2 px-4 bg-accentPurple rounded-lg">
-                                <div>{film.rating}</div>
-                              </div>
-                              <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between py-2 px-4 text-sm font-normal bg-accentWrapper">
-                                <span>{film.year}</span>
-                                <span>{film.countries[0].country}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-                            <span className="text-sm mt-2 font-normal"> {film.nameRu}</span>
-                          </div>
+                          <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
+                        </Link>
+                      </SwiperSlide>
+                    ))}
+                </Slider>
+                <Slider autoplay reverseDirection>
+                  {data &&
+                    data.films.map((film) => (
+                      <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
+                        <Link to={`/film/${film.filmId}`}>
+                          <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                         </Link>
                       </SwiperSlide>
                     ))}
                 </Slider>
               </div>
-            </article>
+            )}
           </div>
-          {f && (
-            <div className="text-2xl font-bold text-ligth mt-6">
+        </div>
+      </section>
+
+      {data && (
+        <section className="my-8 py-2">
+          <div className="container mx-auto">
+            <div className="text-2xl font-bold text-ligth">
+              <article>
+                <h3>Рекомендуем посмотреть</h3>
+                <div className="mt-6">
+                  <Slider
+                    speed={1000}
+                    allowTouchMove={false}
+                    slidesPerGroup={2}
+                    slidesPerView={6}
+                    customNavigation
+                    direction="horizontal">
+                    {data.films.map((film) => (
+                      <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
+                        <FilmSlide
+                          filmId={film.filmId}
+                          filmImg={film.posterUrlPreview}
+                          countries={film.countries}
+                          filmName={film.nameRu}
+                          year={film.year}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Slider>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {f && (
+        <section className="my-8 py-2">
+          <div className="container mx-auto">
+            <div className="text-2xl font-bold text-ligth">
               <article>
                 <h3>Новинки</h3>
                 <div className="mt-6">
@@ -111,73 +115,43 @@ const Main = () => {
                     direction="horizontal">
                     {f.items.map((film) => (
                       <SwiperSlide key={film.kinopoiskId} className="p-2 h-auto flex flex-col">
-                        <Link to={`/film/${film.kinopoiskId}`} className="flex flex-col h-full">
-                          <div className="relative flex-1">
-                            <img
-                              src={film.posterUrlPreview}
-                              alt="1"
-                              className="rounded-md h-full object-cover"
-                            />
-                            <div className="absolute  inset-0  opacity-0 hover:opacity-100 transition-all">
-                              <div className="inline-block py-2 px-4 bg-accentPurple rounded-lg">
-                                <div>{film.ratingImdb || film.ratingKinopoisk}</div>
-                              </div>
-                              <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between py-2 px-4 text-sm font-normal bg-accentWrapper">
-                                <span>{film.year}</span>
-                                <span>{film.countries[0].country}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-                            <span className="text-sm mt-2 font-normal"> {film.nameRu}</span>
-                          </div>
-                        </Link>
+                        <FilmSlide filmId={film.kinopoiskId} filmImg={film.posterUrlPreview} />
                       </SwiperSlide>
                     ))}
                   </Slider>
                 </div>
               </article>
             </div>
-          )}
-          <div className="text-2xl font-bold text-ligth mt-6">
-            <article>
-              <h3>С Высоким рейтингом</h3>
-              <div className="mt-6">
-                <Slider
-                  speed={1000}
-                  allowTouchMove={false}
-                  slidesPerGroup={6}
-                  slidesPerView={6}
-                  customNavigation
-                  direction="horizontal">
-                  {data &&
-                    data.films.map((film: any) => (
-                      <SwiperSlide key={film.filmId} className="p-2 ">
-                        <Link to={`/film/${film.filmId}`}>
-                          <div className="relative">
-                            <img src={film.posterUrlPreview} alt="1" className="rounded-md " />
-                            <div className="absolute  inset-0  opacity-0 hover:opacity-100 transition-all">
-                              <div className="inline-block py-2 px-4 bg-accentPurple rounded-lg">
-                                <div>{film.rating}</div>
-                              </div>
-                              <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between py-2 px-4 text-sm font-normal bg-accentWrapper">
-                                <span>{film.year}</span>
-                                <span>{film.countries[0].country}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-                            <span className="text-sm mt-2 font-normal"> {film.nameRu}</span>
-                          </div>
-                        </Link>
+          </div>
+        </section>
+      )}
+
+      {data && (
+        <section className="my-8 py-2">
+          <div className="container mx-auto">
+            <div className="text-2xl font-bold text-ligth ">
+              <article>
+                <h3>С Высоким рейтингом</h3>
+                <div className="mt-6">
+                  <Slider
+                    speed={1000}
+                    allowTouchMove={false}
+                    slidesPerGroup={6}
+                    slidesPerView={6}
+                    customNavigation
+                    direction="horizontal">
+                    {data.films.map((film) => (
+                      <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
+                        <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                       </SwiperSlide>
                     ))}
-                </Slider>
-              </div>
-            </article>
+                  </Slider>
+                </div>
+              </article>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 };

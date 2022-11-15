@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '../shared/Button';
 import Hamburger from '../shared/Hamburger';
 import Logo from '../ui/Logo';

@@ -74,3 +74,23 @@ export interface FilteredFilms {
   totalPages: number;
   items: FilteredFilm[];
 }
+
+export interface TOPFilm {
+  filmId: number;
+  nameRu: string;
+  nameEn: string;
+  year: string;
+  filmLength: string;
+  countries: Country[];
+  genres: Genre[];
+  rating: string;
+  ratingVoteCount: number;
+  posterUrl: string;
+  posterUrlPreview: string;
+  ratingChange?: any;
+}
+
+export interface TOPFilms {
+  pagesCount: number;
+  films: TOPFilm[];
+}

@@ -14,6 +14,8 @@ import PersonAvatar from '../components/shared/PersonAvatar';
 import { IStaff } from '../models/staff';
 import Slider from '../components/shared/Slider/Slider';
 import { Episode, ISeasons } from '../models/serailSeasons';
+import FilmSlide from '../components/shared/FilmSlide';
+import PersonSlide from '../components/shared/PersonSlide';
 
 const Film = () => {
   const { id } = useParams();
@@ -21,14 +23,14 @@ const Film = () => {
   const [activeSeason, setActiveSeason] = React.useState<Episode[]>([]);
 
   const { data, error, isLoading } = useGetFilmByIdQuery(id ?? skipToken);
-  const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery({ id });
+  const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery(id ?? skipToken);
   const { data: persons } = useGetStaffByFilmIdQuery(id ?? skipToken);
   const { data: filmBudget } = useGetFilmBudgetQuery(id ?? skipToken);
 
   const { data: seasons } = useGetSerialSeasonsQuery(id ?? skipToken, { skip: !data?.serial });
 
-  const getActors = (actors: any) =>
-    actors.filter((person: any) => person.professionKey === 'ACTOR');
+  const getActors = (actors: IStaff[]) =>
+    actors.filter((person) => person.professionKey === 'ACTOR');
 
   const filmLength = (length: number) => {
     const h = Math.floor(length / 60);
@@ -60,9 +62,11 @@ const Film = () => {
                 <div className="w-2/5 mx-4 text-lightGray text-2xl">
                   <h1 className="text-7xl font-bold">{data.nameRu}</h1>
                   <div className="py-2 flex  mt-6 justify-between font-medium text-gray/75">
-                    <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
-                      {data.ratingImdb ? data.ratingImdb.toFixed(1) : data.ratingKinopoisk}
-                    </span>
+                    {(data.ratingImdb || data.ratingKinopoisk) && (
+                      <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">
+                        {data.ratingImdb ? data.ratingImdb.toFixed(1) : data.ratingKinopoisk}
+                      </span>
+                    )}
                     <span>{data.year}</span>
                     <span>{data.genres[0].genre}</span>
                     {data.type === 'TV_SERIES' && <span>{'Сериал'}</span>}
@@ -111,7 +115,7 @@ const Film = () => {
           {seasons && (
             <section className="my-8 py-2">
               <div className="container mx-auto">
-                {
+                {/* {
                   <Slider
                     slidesPerView={4}
                     slidesPerGroup={4}
@@ -153,7 +157,7 @@ const Film = () => {
                       </SwiperSlide>
                     ))}
                   </Slider>
-                )}
+                )} */}
               </div>
             </section>
           )}
@@ -202,42 +206,38 @@ const Film = () => {
               </div>
             </div>
           </section>
-          <section className="my-8 py-2">
-            <div className="container mx-auto">
-              <div className="text-2xl text-secondaryText">
-                <div className="py-2">
-                  <div className="border-b-2 py-2 border-borderGray">
-                    <h3 className="font-medium">Актеры</h3>
+          {persons && (
+            <section className="my-8 py-2">
+              <div className="container mx-auto">
+                <div className="text-2xl text-secondaryText">
+                  <div className="py-2">
+                    <div className="border-b-2 py-2 border-borderGray">
+                      <h3 className="font-medium">Актеры</h3>
+                    </div>
                   </div>
-                </div>
-                <div className="mt-4 ">
-                  <Slider
-                    slidesPerView={8}
-                    slidesPerGroup={4}
-                    speed={1000}
-                    allowTouchMove={false}
-                    customNavigation
-                    direction="horizontal">
-                    {persons &&
-                      getActors(persons).map((person: IStaff) => (
+                  <div className="mt-4 ">
+                    <Slider
+                      slidesPerView={8}
+                      slidesPerGroup={4}
+                      speed={1000}
+                      allowTouchMove={false}
+                      customNavigation
+                      direction="horizontal">
+                      {getActors(persons).map((person) => (
                         <SwiperSlide key={person.staffId} className="p-2">
-                          <Link
-                            to={`/person/${person.staffId}`}
-                            className="flex items-center justify-between flex-col">
-                            <div className="relative w-32 h-32 overflow-hidden rounded-full">
-                              <PersonAvatar src={person.posterUrl} alt={person.nameRu} />
-                            </div>
-                            <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-                              <span className="text-sm mt-2 font-normal"> {person.nameRu}</span>
-                            </div>
-                          </Link>
+                          <PersonSlide
+                            personId={person.staffId}
+                            personImg={person.posterUrl}
+                            personName={person.nameRu || person.nameEn}
+                          />
                         </SwiperSlide>
                       ))}
-                  </Slider>
+                    </Slider>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
           {similars && (
             <section className="my-8 py-2">
               <div className="container mx-auto">
@@ -255,19 +255,14 @@ const Film = () => {
                       allowTouchMove={false}
                       customNavigation
                       direction="horizontal">
-                      {similars.items.map((film: any) => (
+                      {similars.items.map((film) => (
                         <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
                           <Link to={`/film/${film.filmId}`} className="flex flex-col h-full">
-                            <div className="relative flex-1">
-                              <img
-                                src={film.posterUrlPreview}
-                                alt="1"
-                                className="rounded-md h-full object-cover"
-                              />
-                            </div>
-                            <div className="text-ellipsis overflow-hidden whitespace-nowrap">
-                              <span className="text-sm mt-2 font-normal"> {film.nameRu}</span>
-                            </div>
+                            <FilmSlide
+                              filmId={film.filmId}
+                              filmImg={film.posterUrlPreview}
+                              filmName={film.nameRu || film.nameEn}
+                            />
                           </Link>
                         </SwiperSlide>
                       ))}
