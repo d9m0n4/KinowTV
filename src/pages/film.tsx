@@ -115,7 +115,7 @@ const Film = () => {
           {seasons && (
             <section className="my-8 py-2">
               <div className="container mx-auto">
-                {/* {
+                {
                   <Slider
                     slidesPerView={4}
                     slidesPerGroup={4}
@@ -129,8 +129,8 @@ const Film = () => {
                         key={s.number * Math.random()}
                         className="p-2">
                         {({ isActive }: { isActive: any }) => (
-                          <div>
-                            <div>Current slide is {isActive ? 'active' : 'not active'}</div>
+                          <div className="rounded-lg border p-4 max-h-24">
+                            <img src={data.posterUrlPreview} alt="" />
                             <div>Сезон {s.number}</div>
                           </div>
                         )}
@@ -148,8 +148,9 @@ const Film = () => {
                     direction="horizontal">
                     {activeSeason.map((episode) => (
                       <SwiperSlide
+                        className="p-2 h-auto flex flex-col"
                         key={episode.episodeNumber + episode.releaseDate + Math.random()}>
-                        <div>
+                        <div className="rounded-lg border p-4">
                           <div>{episode.episodeNumber}</div>
                           <div>{episode.nameRu}</div>
                           <div>{episode.releaseDate}</div>
@@ -157,7 +158,7 @@ const Film = () => {
                       </SwiperSlide>
                     ))}
                   </Slider>
-                )} */}
+                )}
               </div>
             </section>
           )}

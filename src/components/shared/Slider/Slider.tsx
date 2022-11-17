@@ -23,9 +23,9 @@ const Slider: React.FC<ISlider> = ({
   autoplay = false,
   reverseDirection = false,
   slidesPerView = 4,
-  slidesPerGroup = 1,
+  slidesPerGroup = 4,
   allowTouchMove = true,
-  speed = 5000,
+  speed = 15000,
 }) => {
   const swiperRef = React.useRef<SwiperType>();
 
@@ -43,9 +43,10 @@ const Slider: React.FC<ISlider> = ({
         direction={direction}
         autoplay={
           autoplay && {
-            delay: 1,
+            delay: 0,
             disableOnInteraction: true,
             reverseDirection: reverseDirection,
+            waitForTransition: false,
           }
         }
         loop={true}
