@@ -16,6 +16,7 @@ import Slider from '../components/shared/Slider/Slider';
 import { Episode, ISeasons } from '../models/serailSeasons';
 import FilmSlide from '../components/shared/FilmSlide';
 import PersonSlide from '../components/shared/PersonSlide';
+import Loader from '../components/shared/Loader';
 
 const Film = () => {
   const { id } = useParams();
@@ -48,6 +49,7 @@ const Film = () => {
 
   return (
     <>
+      <Loader in={isLoading} />
       {data && (
         <>
           <section className="h-[calc(100vh_-_88px)]">
