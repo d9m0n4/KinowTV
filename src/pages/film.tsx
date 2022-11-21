@@ -252,8 +252,7 @@ const Film = () => {
                   </div>
                   <div className="mt-4 ">
                     <Slider
-                      slidesPerView={6}
-                      slidesPerGroup={3}
+                      slidesPerView={similars.total > 6 ? 6 : similars.total}
                       speed={1000}
                       allowTouchMove={false}
                       customNavigation

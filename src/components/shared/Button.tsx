@@ -4,11 +4,13 @@ import clsx from 'clsx';
 interface IButton {
   children: React.ReactNode | React.ReactNode[] | string;
   className?: string;
+  onClick?: () => void;
 }
 
-const Button: React.FC<IButton> = ({ children, className }) => {
+const Button: React.FC<IButton> = ({ children, className, onClick }) => {
   return (
     <button
+      onClick={onClick}
       type="button"
       data-mdb-ripple="true"
       data-mdb-ripple-color="light"

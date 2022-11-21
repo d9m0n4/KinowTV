@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  useGetFilmsByFiltersQuery,
-  useGetImagesQuery,
-  useGetPremiersQuery,
-  useGetTopQuery,
-  useGetVideosQuery,
-} from '../services/moviesAPI';
-import cover from '../assets/1.jpg';
-import { Link } from 'react-router-dom';
+import { useGetFilmsByFiltersQuery, useGetTopQuery } from '../services/moviesAPI';
 
 import { SwiperSlide } from 'swiper/react';
 
@@ -16,6 +8,7 @@ import Slider from '../components/shared/Slider/Slider';
 import FilmSlide from '../components/shared/FilmSlide';
 import { FilmOrder, FilmTOP, FilmType } from '../constants/film';
 import Section from '../components/shared/Section';
+import FirstScreen from '../components/layout/Main/FirstScreen';
 
 const Main = () => {
   const { data, error, isLoading } = useGetTopQuery({
@@ -33,40 +26,8 @@ const Main = () => {
     order: FilmOrder.YEAR,
   });
   return (
-    <>
-      <section className="bg-accentDark h-[calc(100vh_-_88px)]">
-        <div className="w-full h-full relative">
-          <img className="object-cover w-full h-full" src={cover} alt="" />
-          <div className="absolute inset-0 bg-accentDark opacity-30"></div>
-          <div className="absolute coverShadow left-0 top-0 bottom-0 w-1/4"></div>
-          <div className="container mx-auto absolute inset-0">
-            {data && (
-              <div className="absolute right-0 top-0 bottom-0 flex">
-                <Slider autoplay>
-                  {data &&
-                    data.films.map((film) => (
-                      <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
-                        <Link to={`/film/${film.filmId}`}>
-                          <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
-                        </Link>
-                      </SwiperSlide>
-                    ))}
-                </Slider>
-                <Slider autoplay reverseDirection>
-                  {data &&
-                    data.films.map((film) => (
-                      <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
-                        <Link to={`/film/${film.filmId}`}>
-                          <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
-                        </Link>
-                      </SwiperSlide>
-                    ))}
-                </Slider>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+    <main>
+      <FirstScreen />
 
       {data && (
         <Section title="Рекомендуем посмотреть">
@@ -74,11 +35,11 @@ const Main = () => {
             speed={1000}
             allowTouchMove={false}
             slidesPerGroup={2}
-            slidesPerView={6}
+            slidesPerView="auto"
             customNavigation
             direction="horizontal">
             {data.films.map((film) => (
-              <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
+              <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col max-w-[240px]">
                 <FilmSlide
                   filmId={film.filmId}
                   filmImg={film.posterUrlPreview}
@@ -95,6 +56,7 @@ const Main = () => {
       {f && (
         <Section title="Новинки">
           <Slider
+            slidesPerView={4}
             slidesPerGroup={1}
             speed={1000}
             allowTouchMove={false}
@@ -126,7 +88,7 @@ const Main = () => {
           </Slider>
         </Section>
       )}
-    </>
+    </main>
   );
 };
 

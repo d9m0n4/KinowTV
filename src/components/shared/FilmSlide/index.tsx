@@ -20,7 +20,7 @@ const FilmSlide = ({
   return (
     <>
       <Link to={`/film/${filmId}`} className="flex flex-col h-full">
-        <div className="relative flex-1">
+        <div className="relative flex-1 h-full">
           <img src={filmImg} alt="1" className="rounded-md h-full object-cover " />
           <div className="absolute  inset-0  opacity-0 hover:opacity-100 transition-all">
             {rating && (

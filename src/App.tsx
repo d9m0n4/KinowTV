@@ -31,9 +31,9 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/film/:id" element={<Film />} />
         <Route path="/person/:id" element={<Person />} />
+        <Route path="/auth" element={<Auth />} />
       </Routes>
       <Footer />
-      {/* <Auth /> */}
     </div>
   );
 }

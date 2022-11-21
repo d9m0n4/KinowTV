@@ -22,8 +22,8 @@ const Slider: React.FC<ISlider> = ({
   direction = 'vertical',
   autoplay = false,
   reverseDirection = false,
-  slidesPerView = 4,
-  slidesPerGroup = 4,
+  slidesPerView,
+  slidesPerGroup,
   allowTouchMove = true,
   speed = 15000,
 }) => {
