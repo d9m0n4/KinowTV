@@ -12,7 +12,9 @@ const Hamburger = React.forwardRef<HTMLDivElement, React.PropsWithRef<IHamburger
       <div ref={ref} className=" bg-accentDark  flex flex-col justify-center transition-all ">
         <div className="relative  mx-auto">
           <nav>
-            <button className="text-accentPurple w-10 h-10 relative focus:outline-none bg-white">
+            <button
+              onClick={onClick}
+              className="text-accentPurple w-10 h-10 relative focus:outline-none bg-white">
               <div className="block w-5 absolute left-1/2 top-1/2   transform  -translate-x-1/2 -translate-y-1/2">
                 <span
                   aria-hidden="true"

@@ -259,13 +259,11 @@ const Film = () => {
                       direction="horizontal">
                       {similars.items.map((film) => (
                         <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
-                          <Link to={`/film/${film.filmId}`} className="flex flex-col h-full">
-                            <FilmSlide
-                              filmId={film.filmId}
-                              filmImg={film.posterUrlPreview}
-                              filmName={film.nameRu || film.nameEn}
-                            />
-                          </Link>
+                          <FilmSlide
+                            filmId={film.filmId}
+                            filmImg={film.posterUrlPreview}
+                            filmName={film.nameRu || film.nameEn}
+                          />
                         </SwiperSlide>
                       ))}
                     </Slider>

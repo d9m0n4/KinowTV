@@ -20,10 +20,10 @@ const Main = () => {
     error: e,
     isLoading: l,
   } = useGetFilmsByFiltersQuery({
-    yearFrom: 2022,
-    type: FilmType.Film,
-    genres: 2,
+    genres: 18,
     order: FilmOrder.YEAR,
+    yearTo: 2022,
+    page: 5,
   });
   return (
     <main>
@@ -77,11 +77,11 @@ const Main = () => {
             speed={1000}
             allowTouchMove={false}
             slidesPerGroup={6}
-            slidesPerView={6}
+            slidesPerView="auto"
             customNavigation
             direction="horizontal">
             {data.films.map((film) => (
-              <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
+              <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col max-w-[240px]">
                 <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
               </SwiperSlide>
             ))}

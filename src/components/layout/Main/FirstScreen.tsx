@@ -25,9 +25,7 @@ const FirstScreen = () => {
                 {data &&
                   data.films.map((film) => (
                     <SwiperSlide key={film.filmId} className="p-2">
-                      <Link to={`/film/${film.filmId}`}>
-                        <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
-                      </Link>
+                      <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                     </SwiperSlide>
                   ))}
               </Slider>
@@ -35,9 +33,7 @@ const FirstScreen = () => {
                 {data &&
                   data.films.map((film) => (
                     <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
-                      <Link to={`/film/${film.filmId}`}>
-                        <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
-                      </Link>
+                      <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                     </SwiperSlide>
                   ))}
               </Slider>

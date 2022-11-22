@@ -51,6 +51,14 @@ const Slider: React.FC<ISlider> = ({
         }
         loop={true}
         onBeforeInit={(swiper) => (swiperRef.current = swiper)}
+        // breakpoints={{
+        //   480: {
+        //     slidesPerView: 1,
+        //   },
+        //   1024: {
+        //     slidesPerView: 6,
+        //   },
+        // }}
         slidesPerView={slidesPerView}
         slidesPerGroup={slidesPerGroup}
         className="h-full">

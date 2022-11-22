@@ -7,6 +7,8 @@ import Auth from './pages/auth';
 import Film from './pages/film';
 import Person from './pages/person';
 import Loader from './components/shared/Loader';
+import Cartoons from './pages/cartoons';
+import NotFound from './pages/404';
 
 function App() {
   const [loader, setLoader] = React.useState(true);
@@ -32,6 +34,8 @@ function App() {
         <Route path="/film/:id" element={<Film />} />
         <Route path="/person/:id" element={<Person />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/cartoons" element={<Cartoons />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>

@@ -13,7 +13,7 @@ const FilmSlide = ({
   filmId: number;
   filmImg: string;
   rating?: number;
-  year?: string;
+  year?: string | number;
   countries?: Country[];
   filmName?: string;
 }) => {
@@ -21,7 +21,7 @@ const FilmSlide = ({
     <>
       <Link to={`/film/${filmId}`} className="flex flex-col h-full">
         <div className="relative flex-1 h-full">
-          <img src={filmImg} alt="1" className="rounded-md h-full object-cover " />
+          <img src={filmImg} alt="1" className="rounded-md h-full object-cover w-full" />
           <div className="absolute  inset-0  opacity-0 hover:opacity-100 transition-all">
             {rating && (
               <div className="inline-block py-2 px-4 bg-accentPurple rounded-lg">

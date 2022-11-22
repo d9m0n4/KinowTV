@@ -10,14 +10,14 @@ import SearchIcon from '../ui/SearchIcon';
 
 const Header = () => {
   const hamburgerRef = React.useRef<HTMLDivElement>(null);
-  const isOutSide = useOnClickOutside(hamburgerRef);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <>
       <header className="bg-accentDark shadow-md">
         <div className="container mx-auto">
           <div className=" p-6 flex justify-between items-center">
-            <Hamburger ref={hamburgerRef} isActive={isOutSide} />
+            <Hamburger ref={hamburgerRef} isActive={isOpen} onClick={() => setIsOpen(!isOpen)} />
             <Logo />
             <div className="flex items-center">
               <div className="px-2 flex items-center mr-2">
@@ -31,7 +31,7 @@ const Header = () => {
             </div>
           </div>
 
-          <Menu isActive={isOutSide} />
+          <Menu isActive={isOpen} />
         </div>
       </header>
     </>
