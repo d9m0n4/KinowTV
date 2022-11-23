@@ -68,8 +68,7 @@ export const MoviesAPI = createApi({
         },
       }),
       transformResponse: (response: FilteredFilms) => {
-        const data = response.items.filter((film) => film.nameRu !== null);
-        return { ...response, items: data };
+        return { ...response, items: response.items.filter((item) => item.nameRu !== null) };
       },
     }),
     getFilmBudget: builder.query<IBudget, string>({

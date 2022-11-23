@@ -62,7 +62,9 @@ const Film = () => {
               <div className="absolute top-0 left-0 bottom-0 w-full gradient flex" />
               <div className="container mx-auto absolute inset-0  flex items-center">
                 <div className="w-2/5 mx-4 text-lightGray text-2xl">
-                  <h1 className="text-7xl font-bold">{data.nameRu}</h1>
+                  <h1 className="text-7xl font-bold">
+                    {data.nameRu || data.nameEn || data.nameOriginal}
+                  </h1>
                   <div className="py-2 flex  mt-6 justify-between font-medium text-gray/75">
                     {(data.ratingImdb || data.ratingKinopoisk) && (
                       <span className="bg-gray rounded-md py-1 px-2 font-bold text-base block text-accentDark">

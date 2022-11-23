@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import FilmSlide from '../components/shared/FilmSlide';
-import { FilmOrder } from '../constants/film';
+import { FilmGenres, FilmOrder } from '../constants/film';
 import { useGetFilmsByFiltersQuery } from '../services/moviesAPI';
 
 const Cartoons = () => {
+  const [page, setPage] = React.useState(1);
   const { data, error, isLoading } = useGetFilmsByFiltersQuery({
-    genres: 18,
-    order: FilmOrder.YEAR,
+    genres: FilmGenres.cartoon,
+    order: FilmOrder.RATING,
+    yearFrom: 2000,
     yearTo: 2022,
-    page: 1,
+    page: page,
   });
 
   React.useEffect(() => {
@@ -49,8 +51,10 @@ const Cartoons = () => {
                 </Link>
               ))}
             </div>
-            <div className="">
-              <ul></ul>
+            <div className="flex">
+              {page !== data.totalPages && (
+                <button onClick={() => setPage((p) => p + 1)}>next page</button>
+              )}
             </div>
           </div>
         </section>
