@@ -56,7 +56,7 @@ const Main = () => {
       {f && (
         <Section title="Новинки">
           <Slider
-            slidesPerView={4}
+            slidesPerView={6}
             slidesPerGroup={1}
             speed={1000}
             allowTouchMove={false}

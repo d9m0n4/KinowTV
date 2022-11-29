@@ -116,6 +116,9 @@ export const MoviesAPI = createApi({
     getSerialSeasons: builder.query<ISeasons, string>({
       query: (id) => `v2.2/films/${id}/seasons`,
     }),
+    getFilmImages: builder.query({
+      query: (id) => `v2.2/films/${id}/images`,
+    }),
   }),
 });
 
@@ -123,7 +126,6 @@ export const {
   useGetPremiersQuery,
   useGetTopQuery,
   useGetVideosQuery,
-  useGetImagesQuery,
   useGetFilmByIdQuery,
   useGetSimilarsByIdQuery,
   useGetStaffByFilmIdQuery,
@@ -131,4 +133,5 @@ export const {
   useGetStaffByPersonIdQuery,
   useGetFilmsByFiltersQuery,
   useGetSerialSeasonsQuery,
+  useGetFilmImagesQuery,
 } = MoviesAPI;
