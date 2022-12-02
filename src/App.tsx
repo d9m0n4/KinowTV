@@ -1,14 +1,9 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Footer from './components/layout/Footer';
-import Header from './components/layout/Header';
-import Main from './pages/main';
-import Auth from './pages/auth';
-import Film from './pages/film';
-import Person from './pages/person';
+import { Footer } from './components/layout/Footer';
+import { Header } from './components/layout/Header';
 import Loader from './components/shared/Loader';
-import Cartoons from './pages/cartoons';
-import NotFound from './pages/404';
+import { Main, Auth, Cartoons, Film, NotFound, Person } from './pages';
 
 function App() {
   const [loader, setLoader] = React.useState(true);

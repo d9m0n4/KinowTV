@@ -15,8 +15,7 @@ const Button: React.FC<IButton> = ({ children, className, onClick }) => {
       data-mdb-ripple="true"
       data-mdb-ripple-color="light"
       className={clsx(
-        `inline-block 
-        text-white 
+        `inline-block  
         font-medium 
         leading-tight   
         shadow-md  

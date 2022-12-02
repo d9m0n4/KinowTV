@@ -18,7 +18,7 @@ import FilmSlide from '../components/shared/FilmSlide';
 import PersonSlide from '../components/shared/PersonSlide';
 import Loader from '../components/shared/Loader';
 
-const Film = () => {
+export const Film = () => {
   const { id } = useParams();
 
   const [activeSeason, setActiveSeason] = React.useState<Episode[]>([]);
@@ -279,5 +279,3 @@ const Film = () => {
     </>
   );
 };
-
-export default Film;

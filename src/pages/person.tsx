@@ -1,12 +1,11 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useGetStaffByPersonIdQuery } from '../services/moviesAPI';
 import PersonAvatar from '../components/shared/PersonAvatar';
 import Button from '../components/shared/Button';
-import { useGetStaffByPersonIdQuery } from '../services/moviesAPI';
-import { uniqueObjArray } from '../utils/uniqueObjArray';
 
-const Person = () => {
+export const Person = () => {
   const { id } = useParams();
   const { data } = useGetStaffByPersonIdQuery(id ?? skipToken);
 
@@ -203,5 +202,3 @@ const Person = () => {
     </>
   );
 };
-
-export default Person;

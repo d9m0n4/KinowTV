@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { SwiperSlide } from 'swiper/react';
 import { FilmTOP } from '../../../constants/film';
 import { useGetTopQuery } from '../../../services/moviesAPI';

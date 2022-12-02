@@ -1,16 +1,16 @@
 import React from 'react';
+
+import { FilmOrder, FilmTOP } from '../constants/film';
+import { SwiperSlide } from 'swiper/react';
 import { useGetFilmsByFiltersQuery, useGetTopQuery } from '../services/moviesAPI';
 
-import { SwiperSlide } from 'swiper/react';
-
-import 'swiper/css';
 import Slider from '../components/shared/Slider/Slider';
 import FilmSlide from '../components/shared/FilmSlide';
-import { FilmOrder, FilmTOP, FilmType } from '../constants/film';
 import Section from '../components/shared/Section';
 import FirstScreen from '../components/layout/Main/FirstScreen';
+import 'swiper/css';
 
-const Main = () => {
+export const Main = () => {
   const { data, error, isLoading } = useGetTopQuery({
     type: FilmTOP.TOP_100_POPULAR_FILMS,
     page: 1,
@@ -91,5 +91,3 @@ const Main = () => {
     </main>
   );
 };
-
-export default Main;

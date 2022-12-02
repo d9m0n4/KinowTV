@@ -7,8 +7,8 @@ import { IStaff } from '../models/staff';
 import { ISeasons } from '../models/serailSeasons';
 import { FilmOrder, FilmTOP, FilmType } from '../constants/film';
 
-interface IFilmFilters {
-  countries?: number;
+export interface IFilmFilters {
+  countries?: number | null;
   genres?: number;
   order?: FilmOrder;
   type?: FilmType;
@@ -56,7 +56,7 @@ export const MoviesAPI = createApi({
       }) => ({
         url: `/v2.2/films`,
         params: {
-          countries,
+          countries: countries && countries,
           genres,
           order,
           type,
@@ -118,6 +118,7 @@ export const MoviesAPI = createApi({
     }),
     getFilmImages: builder.query({
       query: (id) => `v2.2/films/${id}/images`,
+      providesTags: (result) => (result.total > 0 ? [result] : ['No_Data']),
     }),
   }),
 });

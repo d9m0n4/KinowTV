@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../ui/Logo';
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="mt-16 py-8 bg-dark">
       <div className="container mx-auto">
@@ -14,5 +14,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

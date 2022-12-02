@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../components/ui/Logo';
 
-const Auth = () => {
+export const Auth = () => {
   return (
     <section className="bg-accentDark h-screen">
       <div className="container mx-auto h-full">
@@ -15,5 +15,3 @@ const Auth = () => {
     </section>
   );
 };
-
-export default Auth;

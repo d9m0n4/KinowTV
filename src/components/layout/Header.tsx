@@ -1,14 +1,12 @@
-import clsx from 'clsx';
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import useOnClickOutside from '../../hooks/useOutsideClick';
+import { Link } from 'react-router-dom';
 import Button from '../shared/Button';
 import Hamburger from '../shared/Hamburger';
 import Menu from '../shared/Menu';
 import Logo from '../ui/Logo';
 import SearchIcon from '../ui/SearchIcon';
 
-const Header = () => {
+export const Header = () => {
   const hamburgerRef = React.useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -37,5 +35,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;

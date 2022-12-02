@@ -1,6 +1,6 @@
 import React from 'react';
 
-function useOnClickOutside<T extends HTMLElement = HTMLElement>(
+export function useOnClickOutside<T extends HTMLElement = HTMLElement>(
   ref: React.RefObject<T>,
   mouseEvent: 'mousedown' | 'mouseup' = 'mousedown',
 ): boolean {
@@ -26,5 +26,3 @@ function useOnClickOutside<T extends HTMLElement = HTMLElement>(
 
   return onElement;
 }
-
-export default useOnClickOutside;
