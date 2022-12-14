@@ -3,11 +3,17 @@ import Cheveron from '../../ui/cheveron';
 import Button from '../Button';
 
 type data = {
-  id: number;
-  country: string;
+  id: number | string;
+  value: string | number;
 };
 
-export function FilterButton({ title, data }: { title: string; data?: data[] }) {
+interface IFilterButton {
+  title: string;
+  data?: data[];
+  onChange: (id: data['value']) => void;
+}
+
+export const FilterButton: React.FC<IFilterButton> = ({ title, data, onChange }) => {
   const [active, setActive] = React.useState(false);
   const filterBlock = React.useRef<HTMLDivElement>(null);
 
@@ -22,15 +28,18 @@ export function FilterButton({ title, data }: { title: string; data?: data[] }) 
         </span>
       </Button>
       {active && (
-        <ul className=" absolute mt-2 list-none rounded-lg bg-[#282a2e] shadow-md max-h-[280px] w-44 overflow-y-auto overscroll-contain block no-scrollbar">
+        <ul className="absolute mt-2 list-none rounded-lg bg-[#282a2e] shadow-md max-h-[280px] w-44 overflow-y-auto overscroll-contain block no-scrollbar">
           {data &&
             data.map((item) => (
-              <li key={item.id} className="p-2 hover:bg-accentPurple-light cursor-pointer">
-                <span>{item.country}</span>
+              <li
+                key={item.id}
+                onClick={() => onChange(item.id)}
+                className="p-2 hover:bg-accentPurple-light cursor-pointer">
+                <span>{item.value}</span>
               </li>
             ))}
         </ul>
       )}
     </div>
   );
-}
+};

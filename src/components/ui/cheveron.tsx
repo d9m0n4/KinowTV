@@ -11,9 +11,9 @@ const Cheveron = ({ size = 24, stroke = '#111827' }: { size?: number; stroke?: s
       <path
         d="M19 9L12 16L5 9"
         stroke={stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

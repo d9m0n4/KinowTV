@@ -1,18 +1,16 @@
 import React from 'react';
 import FilmSlide from '../components/shared/FilmSlide';
 import { FilterButton } from '../components/shared/FilterButton';
-import { countries, FilmGenres, FilmOrder } from '../constants/film';
+import { countries, FilmGenres, FilmOrder, years } from '../constants/film';
 import { IFilmFilters, useGetFilmsByFiltersQuery } from '../services/moviesAPI';
 
 export const Cartoons = () => {
-  const [page, setPage] = React.useState<number>(1);
   const [filters, setFilters] = React.useState<IFilmFilters>({
     genres: FilmGenres.cartoon,
-    order: FilmOrder.RATING,
-    yearFrom: 2000,
+    order: FilmOrder.YEAR,
+    yearFrom: 1900,
     yearTo: new Date().getUTCFullYear(),
-    page: page,
-    countries: null,
+    page: 1,
   });
 
   const { data } = useGetFilmsByFiltersQuery(filters);
@@ -28,12 +26,28 @@ export const Cartoons = () => {
               </div>
               <div className="flex justify-between mb-8">
                 <div className="flex ">
-                  <FilterButton title="Страна" data={countries} />
-                  <FilterButton title="Годы" />
-                  <FilterButton title="Рейтинг" />
+                  <FilterButton
+                    title="Страна"
+                    data={countries}
+                    onChange={(c) =>
+                      setFilters((filter) => ({ ...filter, countries: c as number }))
+                    }
+                  />
+                  <FilterButton
+                    title="Годы"
+                    data={years}
+                    onChange={(c) =>
+                      setFilters((filter) => ({
+                        ...filter,
+                        yearFrom: Number(c.toString().split('-')[0]),
+                        yearTo: Number(c.toString().split('-')[1]),
+                      }))
+                    }
+                  />
+                  <FilterButton title="Рейтинг" onChange={(e) => console.log(e)} />
                 </div>
                 <div>
-                  <FilterButton title="По рейтингу" />
+                  <FilterButton title="По рейтингу" onChange={(e) => console.log(e)} />
                 </div>
               </div>
             </div>
@@ -54,9 +68,12 @@ export const Cartoons = () => {
               ))}
             </div>
             <div className="flex">
-              {page !== data.totalPages && (
-                <button onClick={() => setPage(page + 1)}>next page</button>
-              )}
+              {
+                <button
+                  onClick={() => setFilters((filter) => ({ ...filter, page: filter.page! + 1 }))}>
+                  next page
+                </button>
+              }
             </div>
           </div>
         </section>
