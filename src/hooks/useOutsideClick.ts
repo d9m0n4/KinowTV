@@ -1,28 +1,22 @@
 import React from 'react';
 
-export function useOnClickOutside<T extends HTMLElement = HTMLElement>(
+export function useOutsideClick<T extends HTMLElement = HTMLElement>(
   ref: React.RefObject<T>,
-  mouseEvent: 'mousedown' | 'mouseup' = 'mousedown',
-): boolean {
-  const [onElement, setOnElement] = React.useState(false);
-
+  attached: boolean = true,
+  clickHandler: React.Dispatch<React.SetStateAction<boolean>>,
+): void {
   React.useEffect(() => {
+    if (!attached) return;
     const isOutsideClick = (event: Event) => {
-      console.log(ref.current?.contains(event.target as Node));
-
       const el = ref?.current;
-
-      if (!el || el.contains(event.target as Node)) {
-        return setOnElement(!onElement);
+      if (!el || !el.contains(event.target as Node)) {
+        clickHandler(!attached);
       }
-      return setOnElement(false);
     };
-    document.addEventListener(mouseEvent, isOutsideClick);
+    document.addEventListener('click', isOutsideClick);
 
     return () => {
-      document.removeEventListener(mouseEvent, isOutsideClick);
+      document.removeEventListener('click', isOutsideClick);
     };
-  }, [ref, mouseEvent, onElement]);
-
-  return onElement;
+  }, [ref, clickHandler, attached]);
 }

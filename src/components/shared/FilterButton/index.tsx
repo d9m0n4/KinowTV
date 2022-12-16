@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOutsideClick } from '../../../hooks/useOutsideClick';
 import Cheveron from '../../ui/cheveron';
 import Button from '../Button';
 
@@ -15,11 +16,13 @@ interface IFilterButton {
 
 export const FilterButton: React.FC<IFilterButton> = ({ title, data, onChange }) => {
   const [active, setActive] = React.useState(false);
-  const filterBlock = React.useRef<HTMLDivElement>(null);
+  const filterButton = React.useRef<HTMLButtonElement>(null);
+  useOutsideClick(filterButton, active, setActive);
 
   return (
-    <div ref={filterBlock} className="relative z-10 text-secondaryText">
+    <div className="relative z-10 text-secondaryText">
       <Button
+        ref={filterButton}
         className="px-4 py-2 bg-[#282a2e] rounded-lg flex items-center"
         onClick={() => setActive(!active)}>
         <span className="mr-2">{title}</span>

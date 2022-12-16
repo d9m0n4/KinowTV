@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 import Button from '../shared/Button';
 import Hamburger from '../shared/Hamburger';
 import Menu from '../shared/Menu';
@@ -9,6 +10,7 @@ import SearchIcon from '../ui/SearchIcon';
 export const Header = () => {
   const hamburgerRef = React.useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  useOutsideClick(hamburgerRef, isOpen, setIsOpen);
 
   return (
     <>

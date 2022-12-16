@@ -7,15 +7,17 @@ interface IButton {
   onClick?: () => void;
 }
 
-const Button: React.FC<IButton> = ({ children, className, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      type="button"
-      data-mdb-ripple="true"
-      data-mdb-ripple-color="light"
-      className={clsx(
-        `inline-block  
+const Button = React.forwardRef<HTMLButtonElement, IButton>(
+  ({ children, className, onClick }, ref) => {
+    return (
+      <button
+        ref={ref}
+        onClick={onClick}
+        type="button"
+        data-mdb-ripple="true"
+        data-mdb-ripple-color="light"
+        className={clsx(
+          `inline-block  
         font-medium 
         leading-tight   
         shadow-md  
@@ -28,11 +30,12 @@ const Button: React.FC<IButton> = ({ children, className, onClick }) => {
         duration-150 
         ease-in-out 
         `,
-        className,
-      )}>
-      {children}
-    </button>
-  );
-};
+          className,
+        )}>
+        {children}
+      </button>
+    );
+  },
+);
 
 export default Button;

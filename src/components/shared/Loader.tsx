@@ -7,7 +7,7 @@ const duration = 300;
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
   opacity: 0,
-  zIndex: 9,
+  zIndex: 99,
   display: 'none',
 };
 
