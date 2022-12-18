@@ -7,14 +7,17 @@ import { PageFilters } from '../components/shared/PageFilters';
 import { countries, FilmGenres, FilmOrder, years } from '../constants/film';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { IFilmFilters, useGetFilmsByFiltersQuery } from '../services/moviesAPI';
+import {useActions} from "../hooks/useActions";
 
 export const Cartoons = () => {
   const filters = useTypedSelector((state) => state.filters);
-  const { data, isFetching } = useGetFilmsByFiltersQuery(filters);
+  const { data, isFetching, isLoading } = useGetFilmsByFiltersQuery(filters);
+  const {setPage} = useActions()
+  const page = useTypedSelector((state) => state.filters.page)
 
   return (
     <>
-      <Loader in={isFetching} />
+      <Loader in={isFetching || isLoading} />
       {data && (
         <section>
           <div className="container mx-auto">
@@ -26,12 +29,12 @@ export const Cartoons = () => {
             </div>
             <PageContent data={data} />
             <div className="flex">
-              {/* {
+               {page && page < data.totalPages  &&
                 <button
-                  onClick={() => setFilters((filter) => ({ ...filter, page: filter.page! + 1 }))}>
+                  onClick={() => setPage(page + 1)}>
                   next page
                 </button>
-              } */}
+              }
             </div>
           </div>
         </section>

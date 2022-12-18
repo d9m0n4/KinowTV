@@ -1,12 +1,12 @@
 import React from 'react';
 import { SwiperSlide } from 'swiper/react';
-import { FilmTOP } from '../../../constants/film';
-import { useGetTopQuery } from '../../../services/moviesAPI';
-import FilmSlide from '../../shared/FilmSlide';
-import Slider from '../../shared/Slider/Slider';
-import cover from '../../../assets/1.jpg';
+import { FilmTOP } from '../../constants/film';
+import { useGetTopQuery } from '../../services/moviesAPI';
+import FilmSlide from '../shared/FilmSlide';
+import Slider from '../shared/Slider/Slider';
+import cover from '../../assets/1.jpg';
 
-const FirstScreen = () => {
+export const FirstScreen = () => {
   const { data, error, isLoading } = useGetTopQuery({
     type: FilmTOP.TOP_100_POPULAR_FILMS,
     page: 1,
@@ -20,10 +20,10 @@ const FirstScreen = () => {
         <div className="container mx-auto absolute inset-0">
           {data && (
             <div className="absolute right-0 top-0 bottom-0 flex">
-              <Slider autoplay direction="vertical" slidesPerView={5}>
+              <Slider autoplay  slidesPerView={5}>
                 {data &&
                   data.films.map((film) => (
-                    <SwiperSlide key={film.filmId} className="p-2">
+                    <SwiperSlide key={film.filmId} className="p-2 max-w-[140px]">
                       <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                     </SwiperSlide>
                   ))}
@@ -31,7 +31,7 @@ const FirstScreen = () => {
               <Slider autoplay reverseDirection slidesPerView={5}>
                 {data &&
                   data.films.map((film) => (
-                    <SwiperSlide key={film.filmId} className="p-2 h-full max-w-[140px]">
+                    <SwiperSlide key={film.filmId} className="p-2 max-w-[140px]">
                       <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                     </SwiperSlide>
                   ))}
@@ -44,4 +44,3 @@ const FirstScreen = () => {
   );
 };
 
-export default FirstScreen;

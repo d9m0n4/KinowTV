@@ -7,8 +7,9 @@ import { useGetFilmsByFiltersQuery, useGetTopQuery } from '../services/moviesAPI
 import Slider from '../components/shared/Slider/Slider';
 import FilmSlide from '../components/shared/FilmSlide';
 import Section from '../components/shared/Section';
-import FirstScreen from '../components/layout/Main/FirstScreen';
+
 import 'swiper/css';
+import {FirstScreen} from "../components/layout";
 
 export const Main = () => {
   const { data, error, isLoading } = useGetTopQuery({
@@ -39,7 +40,7 @@ export const Main = () => {
             customNavigation
             direction="horizontal">
             {data.films.map((film) => (
-              <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col max-w-[240px]">
+              <SwiperSlide key={film.filmId} className="p-2  max-w-[240px]">
                 <FilmSlide
                   filmId={film.filmId}
                   filmImg={film.posterUrlPreview}
@@ -56,15 +57,15 @@ export const Main = () => {
       {f && (
         <Section title="Новинки">
           <Slider
-            slidesPerView={6}
+            slidesPerView={'auto'}
             slidesPerGroup={1}
             speed={1000}
             allowTouchMove={false}
             customNavigation
             direction="horizontal">
             {f.items.map((film) => (
-              <SwiperSlide key={film.kinopoiskId} className="p-2 h-auto flex flex-col">
-                <FilmSlide filmId={film.kinopoiskId} filmImg={film.posterUrlPreview} />
+              <SwiperSlide key={film.kinopoiskId} className="p-2 max-w-[16.6%]">
+                <FilmSlide filmId={film.kinopoiskId} filmImg={film.posterUrlPreview} filmName={film.nameRu} year={film.year} countries={film.countries} rating={film.ratingImdb} />
               </SwiperSlide>
             ))}
           </Slider>

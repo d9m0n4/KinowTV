@@ -1,13 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { MoviesAPI } from '../services/moviesAPI';
-import { filterSlice } from './slices/filterSlice';
+import { filterSlice } from './reducers/filterSlice';
 
-const store = configureStore({
-  reducer: {
-    [MoviesAPI.reducerPath]: MoviesAPI.reducer,
-    filters: filterSlice.reducer,
-  },
+const rootReducer = combineReducers({
+  [MoviesAPI.reducerPath]: MoviesAPI.reducer,
+  filters: filterSlice.reducer,
+})
+
+export const store = configureStore({
+  reducer: rootReducer,
   middleware: (getDefaultMiddlware) => getDefaultMiddlware().concat(MoviesAPI.middleware),
 });
 

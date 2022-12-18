@@ -1,3 +1,1 @@
-import { setCountry } from './slices/filterSlice';
-
-export { setCountry };
+export { setCountry, setYear, setOrder, setRating, setPage, reset } from './reducers/filterSlice';
