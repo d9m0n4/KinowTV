@@ -9,7 +9,7 @@ import FilmSlide from '../components/shared/FilmSlide';
 import Section from '../components/shared/Section';
 
 import 'swiper/css';
-import {FirstScreen} from "../components/layout";
+import { FirstScreen } from '../components/layout';
 
 export const Main = () => {
   const { data, error, isLoading } = useGetTopQuery({
@@ -40,7 +40,7 @@ export const Main = () => {
             customNavigation
             direction="horizontal">
             {data.films.map((film) => (
-              <SwiperSlide key={film.filmId} className="p-2  max-w-[240px]">
+              <SwiperSlide key={film.filmId} className="p-2 max-w-[16.6%]">
                 <FilmSlide
                   filmId={film.filmId}
                   filmImg={film.posterUrlPreview}
@@ -65,7 +65,14 @@ export const Main = () => {
             direction="horizontal">
             {f.items.map((film) => (
               <SwiperSlide key={film.kinopoiskId} className="p-2 max-w-[16.6%]">
-                <FilmSlide filmId={film.kinopoiskId} filmImg={film.posterUrlPreview} filmName={film.nameRu} year={film.year} countries={film.countries} rating={film.ratingImdb} />
+                <FilmSlide
+                  filmId={film.kinopoiskId}
+                  filmImg={film.posterUrlPreview}
+                  filmName={film.nameRu}
+                  year={film.year}
+                  countries={film.countries}
+                  rating={film.ratingImdb}
+                />
               </SwiperSlide>
             ))}
           </Slider>
@@ -82,7 +89,7 @@ export const Main = () => {
             customNavigation
             direction="horizontal">
             {data.films.map((film) => (
-              <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col max-w-[240px]">
+              <SwiperSlide key={film.filmId} className="p-2 max-w-[16.6%]">
                 <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
               </SwiperSlide>
             ))}

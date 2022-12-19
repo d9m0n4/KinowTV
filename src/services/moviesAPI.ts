@@ -67,6 +67,7 @@ export const MoviesAPI = createApi({
           page,
         },
       }),
+
       transformResponse: (response: FilteredFilms) => {
         return { ...response, items: response.items.filter((item) => item.nameRu !== null) };
       },
