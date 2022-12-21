@@ -3,7 +3,7 @@ import React from 'react';
 import Swiper from 'swiper';
 
 interface ISwiperNavBtn {
-  swiperRef: React.RefObject<Swiper | undefined> | undefined;
+  swiperRef?: React.RefObject<Swiper | undefined> | undefined;
   className?: string;
   withShadow?: boolean;
 }
@@ -16,7 +16,7 @@ const CustomNextArrow: React.FC<ISwiperNavBtn> = ({ swiperRef, className, withSh
           withShadow,
       })}>
       <button
-        className="p-2 -translate-y-1/4 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="p-2 -translate-y-1/4 opacity-0 group-hover:opacity-100 transition-opacity next"
         onClick={() => swiperRef?.current?.slideNext()}>
         <svg
           width="12"

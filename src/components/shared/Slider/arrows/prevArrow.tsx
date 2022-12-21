@@ -3,7 +3,7 @@ import React from 'react';
 import Swiper from 'swiper';
 
 interface ISwiperNavBtn {
-  swiperRef: React.RefObject<Swiper | undefined> | undefined;
+  swiperRef?: React.RefObject<Swiper | undefined> | undefined;
   className?: string;
   withShadow?: boolean;
 }

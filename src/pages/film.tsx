@@ -222,14 +222,14 @@ export const Film = () => {
                   </div>
                   <div className="mt-4 ">
                     <Slider
-                      slidesPerView={8}
+                      slidesPerView={'auto'}
                       slidesPerGroup={4}
                       speed={1000}
                       allowTouchMove={false}
                       customNavigation
                       direction="horizontal">
                       {getActors(persons).map((person) => (
-                        <SwiperSlide key={person.staffId} className="p-2">
+                        <SwiperSlide key={person.staffId} className="p-2 max-w-[16.6%]">
                           <PersonSlide
                             personId={person.staffId}
                             personImg={person.posterUrl}
@@ -252,15 +252,16 @@ export const Film = () => {
                       <h3 className="font-medium">Похожие</h3>
                     </div>
                   </div>
-                  <div className="mt-4 ">
+                  <div className="mt-4">
                     <Slider
-                      slidesPerView={similars.total > 6 ? 6 : similars.total}
+                      slidesPerView={'auto'}
+                      slidesPerGroup={1}
                       speed={1000}
                       allowTouchMove={false}
                       customNavigation
                       direction="horizontal">
                       {similars.items.map((film) => (
-                        <SwiperSlide key={film.filmId} className="p-2 h-auto flex flex-col">
+                        <SwiperSlide key={film.filmId} className="p-2 max-w-[16.6%]">
                           <FilmSlide
                             filmId={film.filmId}
                             filmImg={film.posterUrlPreview}

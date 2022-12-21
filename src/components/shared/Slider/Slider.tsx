@@ -1,5 +1,5 @@
 import React from 'react';
-import { Autoplay, Swiper as SwiperType } from 'swiper';
+import { Autoplay, Navigation, Swiper as SwiperType } from 'swiper';
 import { Swiper } from 'swiper/react';
 import CustomNextArrow from './arrows/nextArrow';
 import CustomPrevArrow from './arrows/prevArrow';
@@ -14,6 +14,7 @@ interface ISlider {
   slidesPerGroup?: number;
   allowTouchMove?: boolean;
   speed?: number;
+  loop?: boolean;
 }
 
 const Slider: React.FC<ISlider> = ({
@@ -26,6 +27,7 @@ const Slider: React.FC<ISlider> = ({
   slidesPerGroup,
   allowTouchMove = true,
   speed = 15000,
+  loop = false,
 }) => {
   const swiperRef = React.useRef<SwiperType>();
 
@@ -39,7 +41,7 @@ const Slider: React.FC<ISlider> = ({
         }}
         speed={speed}
         freeMode
-        modules={[Autoplay]}
+        modules={[Autoplay, Navigation]}
         direction={direction}
         autoplay={
           autoplay && {
@@ -49,8 +51,9 @@ const Slider: React.FC<ISlider> = ({
             waitForTransition: false,
           }
         }
-        loop={true}
+        loop={loop}
         onBeforeInit={(swiper) => (swiperRef.current = swiper)}
+        navigation={{ nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }}
         // breakpoints={{
         //   480: {
         //     slidesPerView: 1,

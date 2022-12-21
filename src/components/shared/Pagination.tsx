@@ -19,7 +19,6 @@ export const Pagination = () => {
               1
             </a>
           </li>
-
           <li>
             <a
               href="#"
