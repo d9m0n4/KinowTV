@@ -23,7 +23,7 @@ module.exports = {
       },
       lightGray: '#F2F2F2',
       secondaryText: '#D6D6D6',
-      dark: '#0303030',
+      dark: '#030303',
       ligth: '#fdfdfd',
     },
     fontFamily: {

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Autoplay, Navigation, Swiper as SwiperType } from 'swiper';
 import { Swiper } from 'swiper/react';
-import CustomNextArrow from './arrows/nextArrow';
-import CustomPrevArrow from './arrows/prevArrow';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 interface ISlider {
   children: React.ReactElement | React.ReactElement[];
-  customNavigation?: boolean;
   direction?: 'horizontal' | 'vertical';
   autoplay?: boolean;
   reverseDirection?: boolean;
@@ -15,11 +16,13 @@ interface ISlider {
   allowTouchMove?: boolean;
   speed?: number;
   loop?: boolean;
+  withShadow?: boolean;
+  gap?: number;
 }
 
 const Slider: React.FC<ISlider> = ({
   children,
-  customNavigation,
+  withShadow = true,
   direction = 'vertical',
   autoplay = false,
   reverseDirection = false,
@@ -28,9 +31,8 @@ const Slider: React.FC<ISlider> = ({
   allowTouchMove = true,
   speed = 15000,
   loop = false,
+  gap = 0,
 }) => {
-  const swiperRef = React.useRef<SwiperType>();
-
   return (
     <div className="relative">
       <Swiper
@@ -52,8 +54,8 @@ const Slider: React.FC<ISlider> = ({
           }
         }
         loop={loop}
-        onBeforeInit={(swiper) => (swiperRef.current = swiper)}
-        navigation={{ nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }}
+        navigation
+        spaceBetween={gap}
         // breakpoints={{
         //   480: {
         //     slidesPerView: 1,
@@ -64,15 +66,9 @@ const Slider: React.FC<ISlider> = ({
         // }}
         slidesPerView={slidesPerView}
         slidesPerGroup={slidesPerGroup}
-        className="h-full">
+        className={`h-full ${withShadow && 'withShadow'} `}>
         {children}
       </Swiper>
-      {customNavigation && (
-        <>
-          <CustomPrevArrow swiperRef={swiperRef} className="absolute -left-2.5 top-0" />
-          <CustomNextArrow swiperRef={swiperRef} className="absolute -right-2.5 top-0" />
-        </>
-      )}
     </div>
   );
 };

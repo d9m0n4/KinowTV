@@ -119,7 +119,6 @@ export const MoviesAPI = createApi({
     }),
     getFilmImages: builder.query({
       query: (id) => `v2.2/films/${id}/images`,
-      providesTags: (result) => (result.total > 0 ? [result] : ['No_Data']),
     }),
   }),
 });

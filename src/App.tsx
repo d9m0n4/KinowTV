@@ -4,6 +4,7 @@ import { Footer } from './components/layout/Footer';
 import { Header } from './components/layout/Header';
 import Loader from './components/shared/Loader';
 import { Main, Auth, Cartoons, Film, NotFound, Person } from './pages';
+import { Serials } from './pages/serials';
 
 function App() {
   const [loader, setLoader] = React.useState(true);
@@ -30,6 +31,7 @@ function App() {
         <Route path="/person/:id" element={<Person />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/cartoons" element={<Cartoons />} />
+        <Route path="/tv_series" element={<Serials />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

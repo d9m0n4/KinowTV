@@ -1,14 +1,10 @@
 import { IFilmFilters } from './../../services/moviesAPI';
-import {ActionCreatorWithoutPayload, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { FilmGenres, FilmOrder } from '../../constants/film';
+import { createSlice } from '@reduxjs/toolkit';
+import { FilmGenres } from '../../constants/film';
 
 interface FiltersState extends IFilmFilters {}
 
 const initialState: FiltersState = {
-  genres: FilmGenres.cartoon,
-  order: FilmOrder.YEAR,
-  yearFrom: 2022,
-  yearTo: 2022,
   page: 1,
 };
 
@@ -20,21 +16,20 @@ export const filterSlice = createSlice({
       state.countries = action.payload;
     },
     setYear(state, action) {
-      state.yearFrom = action.payload
-      state.yearTo = action.payload
+      state.yearFrom = action.payload;
+      state.yearTo = action.payload;
     },
     setRating(state, action) {
-      state.ratingFrom = action.payload
-      state.ratingTo = action.payload
+      state.ratingFrom = action.payload;
+      state.ratingTo = action.payload;
     },
     setOrder(state, action) {
-      state.order = action.payload
+      state.order = action.payload;
     },
     setPage(state, action) {
-      state.page = action.payload
+      state.page = action.payload;
     },
-    reset: () => initialState
-
+    reset: () => initialState,
   },
 });
 

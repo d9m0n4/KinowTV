@@ -23,7 +23,7 @@ const Menu = ({ isActive }: { isActive: boolean }) => {
             </NavLink>
           </li>
           <li className="mx-4">
-            <NavLink className="text-xl font-medium text-secondaryText" to="/tv_show">
+            <NavLink className="text-xl font-medium text-secondaryText" to="/tv_series">
               Сериалы
             </NavLink>
           </li>

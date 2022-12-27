@@ -37,7 +37,6 @@ export const Main = () => {
             allowTouchMove={false}
             slidesPerGroup={2}
             slidesPerView="auto"
-            customNavigation
             direction="horizontal">
             {data.films.map((film) => (
               <SwiperSlide key={film.filmId} className="p-2 max-w-[16.6%]">
@@ -61,7 +60,6 @@ export const Main = () => {
             slidesPerGroup={1}
             speed={1000}
             allowTouchMove={false}
-            customNavigation
             direction="horizontal">
             {f.items.map((film) => (
               <SwiperSlide key={film.kinopoiskId} className="p-2 max-w-[16.6%]">
@@ -86,7 +84,6 @@ export const Main = () => {
             allowTouchMove={false}
             slidesPerGroup={6}
             slidesPerView="auto"
-            customNavigation
             direction="horizontal">
             {data.films.map((film) => (
               <SwiperSlide key={film.filmId} className="p-2 max-w-[16.6%]">

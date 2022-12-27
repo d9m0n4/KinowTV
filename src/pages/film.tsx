@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   useGetFilmBudgetQuery,
   useGetFilmByIdQuery,
@@ -8,15 +8,15 @@ import {
   useGetStaffByFilmIdQuery,
 } from '../services/moviesAPI';
 import Button from '../components/shared/Button';
-import { SwiperSlide, useSwiperSlide } from 'swiper/react';
+import { SwiperSlide } from 'swiper/react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
-import PersonAvatar from '../components/shared/PersonAvatar';
 import { IStaff } from '../models/staff';
 import Slider from '../components/shared/Slider/Slider';
-import { Episode, ISeasons } from '../models/serailSeasons';
+import { Episode } from '../models/serailSeasons';
 import FilmSlide from '../components/shared/FilmSlide';
 import PersonSlide from '../components/shared/PersonSlide';
-import Loader from '../components/shared/Loader';
+import Cheveron from '../components/ui/cheveron';
+import { toDateString } from '../utils/toLocaleDateString';
 
 export const Film = () => {
   const { id } = useParams();
@@ -27,7 +27,6 @@ export const Film = () => {
   const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery(id ?? skipToken);
   const { data: persons } = useGetStaffByFilmIdQuery(id ?? skipToken);
   const { data: filmBudget } = useGetFilmBudgetQuery(id ?? skipToken);
-
   const { data: seasons } = useGetSerialSeasonsQuery(id ?? skipToken, { skip: !data?.serial });
 
   const getActors = (actors: IStaff[]) =>
@@ -39,17 +38,12 @@ export const Film = () => {
     return h < 1 ? `${m} мин` : `${h}ч ${m}мин`;
   };
 
-  React.useEffect(() => {
-    console.log(activeSeason);
-  }, [activeSeason]);
-
   if (error) {
     return <div>Фильм не найден</div>;
   }
 
   return (
     <>
-      <Loader in={isLoading} />
       {data && (
         <>
           <section className="h-[calc(100vh_-_88px)]">
@@ -117,25 +111,29 @@ export const Film = () => {
             </div>
           </section>
           {seasons && (
-            <section className="my-8 py-2">
+            <section className="my-8 py-2 text-secondaryText">
               <div className="container mx-auto">
                 {
                   <Slider
-                    slidesPerView={4}
-                    slidesPerGroup={4}
+                    slidesPerView={'auto'}
                     speed={1000}
+                    withShadow={false}
                     allowTouchMove={false}
-                    customNavigation
                     direction="horizontal">
                     {seasons.items.map((s) => (
                       <SwiperSlide
                         onClick={() => setActiveSeason(s.episodes)}
                         key={s.number * Math.random()}
-                        className="p-2">
+                        className="p-2 max-w-[16.6%] ">
                         {({ isActive }: { isActive: any }) => (
-                          <div className="rounded-lg border p-4 max-h-24">
-                            <img src={data.posterUrlPreview} alt="" />
-                            <div>Сезон {s.number}</div>
+                          <div className="p-2 border-b-2 flex justify-between items-center">
+                            <div>
+                              <div className="text-xl">Сезон: {s.number}</div>
+                              <div className="font-light">Серий: {s.episodes.length}</div>
+                            </div>
+                            <div className="-rotate-90 cursor-pointer ">
+                              <Cheveron stroke="#fefeff" />
+                            </div>
                           </div>
                         )}
                       </SwiperSlide>
@@ -143,25 +141,39 @@ export const Film = () => {
                   </Slider>
                 }
                 {activeSeason && (
-                  <Slider
-                    slidesPerView={4}
-                    slidesPerGroup={4}
-                    speed={1000}
-                    allowTouchMove={false}
-                    customNavigation
-                    direction="horizontal">
-                    {activeSeason.map((episode) => (
-                      <SwiperSlide
-                        className="p-2 h-auto flex flex-col"
-                        key={episode.episodeNumber + episode.releaseDate + Math.random()}>
-                        <div className="rounded-lg border p-4">
-                          <div>{episode.episodeNumber}</div>
-                          <div>{episode.nameRu}</div>
-                          <div>{episode.releaseDate}</div>
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Slider>
+                  <div className="mt-2">
+                    <Slider
+                      slidesPerView={'auto'}
+                      speed={1000}
+                      withShadow={false}
+                      allowTouchMove={false}
+                      direction="horizontal">
+                      {activeSeason.map((episode) => (
+                        <SwiperSlide
+                          className="p-2 max-w-[16.6%]"
+                          key={episode.episodeNumber + Math.random()}>
+                          <div className="relative">
+                            <div className="h-[124px] rounded-lg overflow-hidden">
+                              {data && (
+                                <img
+                                  src={data.coverUrl ? data.coverUrl : data.posterUrl}
+                                  alt=""
+                                  className="w-full h-full object-cover "
+                                />
+                              )}
+                            </div>
+                            <div className="mt-1 flex flex-col">
+                              <span className="">Серия: {episode.episodeNumber}</span>
+                              <span>{episode.nameRu}</span>
+                              <span className="text-gray/80">
+                                {toDateString(episode.releaseDate)}
+                              </span>
+                            </div>
+                          </div>
+                        </SwiperSlide>
+                      ))}
+                    </Slider>
+                  </div>
                 )}
               </div>
             </section>
@@ -226,7 +238,6 @@ export const Film = () => {
                       slidesPerGroup={4}
                       speed={1000}
                       allowTouchMove={false}
-                      customNavigation
                       direction="horizontal">
                       {getActors(persons).map((person) => (
                         <SwiperSlide key={person.staffId} className="p-2 max-w-[16.6%]">
@@ -258,7 +269,6 @@ export const Film = () => {
                       slidesPerGroup={1}
                       speed={1000}
                       allowTouchMove={false}
-                      customNavigation
                       direction="horizontal">
                       {similars.items.map((film) => (
                         <SwiperSlide key={film.filmId} className="p-2 max-w-[16.6%]">
