@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 interface ISlider {
-  children: React.ReactElement | React.ReactElement[];
+  children: React.ReactNode;
   direction?: 'horizontal' | 'vertical';
   autoplay?: boolean;
   reverseDirection?: boolean;

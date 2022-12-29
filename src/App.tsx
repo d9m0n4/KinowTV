@@ -4,6 +4,8 @@ import { Footer } from './components/layout/Footer';
 import { Header } from './components/layout/Header';
 import Loader from './components/shared/Loader';
 import { Main, Auth, Cartoons, Film, NotFound, Person } from './pages';
+import { Films } from './pages/films';
+import { NewFilms } from './pages/newFilms';
 import { Serials } from './pages/serials';
 
 function App() {
@@ -32,6 +34,8 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/cartoons" element={<Cartoons />} />
         <Route path="/tv_series" element={<Serials />} />
+        <Route path="/new" element={<NewFilms />} />
+        <Route path="/films" element={<Films />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

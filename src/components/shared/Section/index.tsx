@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ISection {
-  children: React.ReactElement | React.ReactElement[];
+  children: React.ReactNode;
   title: string;
 }
 

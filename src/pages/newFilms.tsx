@@ -8,9 +8,12 @@ import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useGetFilmsByFiltersQuery } from '../services/moviesAPI';
 
-export const Cartoons = () => {
+export const NewFilms = () => {
   const filters = useTypedSelector((state) => state.filters);
-  const { data, isFetching, isLoading } = useGetFilmsByFiltersQuery({ ...filters, genres: 18 });
+  const { data, isFetching, isLoading } = useGetFilmsByFiltersQuery({
+    ...filters,
+    yearFrom: new Date().getFullYear(),
+  });
   const page = useTypedSelector((state) => state.filters.page);
   const { setPage } = useActions();
 
@@ -22,9 +25,8 @@ export const Cartoons = () => {
           <div className="container mx-auto">
             <div className="pt-8">
               <div className="mb-8">
-                <h1 className="text-4xl font-bold text-lightGray">Мультфильмы</h1>
+                <h1 className="text-4xl font-bold text-lightGray">Новинки</h1>
               </div>
-              <PageFilters />
             </div>
             <PageContent data={data} />
             <div className="my-4">

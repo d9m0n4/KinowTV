@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import {
   useGetFilmBudgetQuery,
   useGetFilmByIdQuery,
-  useGetSerialSeasonsQuery,
   useGetSimilarsByIdQuery,
   useGetStaffByFilmIdQuery,
 } from '../services/moviesAPI';
@@ -12,22 +11,17 @@ import { SwiperSlide } from 'swiper/react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { IStaff } from '../models/staff';
 import Slider from '../components/shared/Slider/Slider';
-import { Episode } from '../models/serailSeasons';
 import FilmSlide from '../components/shared/FilmSlide';
 import PersonSlide from '../components/shared/PersonSlide';
-import Cheveron from '../components/ui/cheveron';
-import { toDateString } from '../utils/toLocaleDateString';
+import { SeriesSection } from '../components/layout/SeriesSection';
 
 export const Film = () => {
   const { id } = useParams();
 
-  const [activeSeason, setActiveSeason] = React.useState<Episode[]>([]);
-
-  const { data, error, isLoading } = useGetFilmByIdQuery(id ?? skipToken);
-  const { data: similars, error: e, isLoading: l } = useGetSimilarsByIdQuery(id ?? skipToken);
+  const { data, error } = useGetFilmByIdQuery(id ?? skipToken);
+  const { data: similars } = useGetSimilarsByIdQuery(id ?? skipToken);
   const { data: persons } = useGetStaffByFilmIdQuery(id ?? skipToken);
   const { data: filmBudget } = useGetFilmBudgetQuery(id ?? skipToken);
-  const { data: seasons } = useGetSerialSeasonsQuery(id ?? skipToken, { skip: !data?.serial });
 
   const getActors = (actors: IStaff[]) =>
     actors.filter((person) => person.professionKey === 'ACTOR');
@@ -41,6 +35,8 @@ export const Film = () => {
   if (error) {
     return <div>Фильм не найден</div>;
   }
+
+  //разбить на копмпоненты
 
   return (
     <>
@@ -110,74 +106,11 @@ export const Film = () => {
               </div>
             </div>
           </section>
-          {seasons && (
-            <section className="my-8 py-2 text-secondaryText">
-              <div className="container mx-auto">
-                {
-                  <Slider
-                    slidesPerView={'auto'}
-                    speed={1000}
-                    withShadow={false}
-                    allowTouchMove={false}
-                    direction="horizontal">
-                    {seasons.items.map((s) => (
-                      <SwiperSlide
-                        onClick={() => setActiveSeason(s.episodes)}
-                        key={s.number * Math.random()}
-                        className="p-2 max-w-[16.6%] ">
-                        {({ isActive }: { isActive: any }) => (
-                          <div className="p-2 border-b-2 flex justify-between items-center">
-                            <div>
-                              <div className="text-xl">Сезон: {s.number}</div>
-                              <div className="font-light">Серий: {s.episodes.length}</div>
-                            </div>
-                            <div className="-rotate-90 cursor-pointer ">
-                              <Cheveron stroke="#fefeff" />
-                            </div>
-                          </div>
-                        )}
-                      </SwiperSlide>
-                    ))}
-                  </Slider>
-                }
-                {activeSeason && (
-                  <div className="mt-2">
-                    <Slider
-                      slidesPerView={'auto'}
-                      speed={1000}
-                      withShadow={false}
-                      allowTouchMove={false}
-                      direction="horizontal">
-                      {activeSeason.map((episode) => (
-                        <SwiperSlide
-                          className="p-2 max-w-[16.6%]"
-                          key={episode.episodeNumber + Math.random()}>
-                          <div className="relative">
-                            <div className="h-[124px] rounded-lg overflow-hidden">
-                              {data && (
-                                <img
-                                  src={data.coverUrl ? data.coverUrl : data.posterUrl}
-                                  alt=""
-                                  className="w-full h-full object-cover "
-                                />
-                              )}
-                            </div>
-                            <div className="mt-1 flex flex-col">
-                              <span className="">Серия: {episode.episodeNumber}</span>
-                              <span>{episode.nameRu}</span>
-                              <span className="text-gray/80">
-                                {toDateString(episode.releaseDate)}
-                              </span>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                      ))}
-                    </Slider>
-                  </div>
-                )}
-              </div>
-            </section>
+
+          {data.serial && id && (
+            <SeriesSection id={id} cover={data.coverUrl ? data.coverUrl : data.posterUrl} />
           )}
+
           <section className="my-8 py-2">
             <div className="container mx-auto">
               <div className="flex gap-8 text-2xl text-secondaryText">
