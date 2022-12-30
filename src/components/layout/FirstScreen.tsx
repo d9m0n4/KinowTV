@@ -20,18 +20,18 @@ export const FirstScreen = () => {
         <div className="container mx-auto absolute inset-0">
           {data && (
             <div className="absolute right-0 top-0 bottom-0 flex">
-              <Slider autoplay  slidesPerView={5}>
+              <Slider slidesPerView={5}>
                 {data &&
                   data.films.map((film) => (
-                    <SwiperSlide key={film.filmId} className="p-2 max-w-[140px]">
+                    <SwiperSlide key={film.filmId} className="p-2 min-w-[140px] w-full">
                       <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                     </SwiperSlide>
                   ))}
               </Slider>
-              <Slider autoplay reverseDirection slidesPerView={5}>
+              <Slider reverseDirection slidesPerView={5}>
                 {data &&
                   data.films.map((film) => (
-                    <SwiperSlide key={film.filmId} className="p-2 max-w-[140px]">
+                    <SwiperSlide key={film.filmId} className="p-2 min-w-[140px] w-full">
                       <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
                     </SwiperSlide>
                   ))}
@@ -43,4 +43,3 @@ export const FirstScreen = () => {
     </section>
   );
 };
-

@@ -3,7 +3,7 @@ import Loader from '../components/shared/Loader';
 import { PageContent } from '../components/shared/PageContent';
 import { PageFilters } from '../components/shared/PageFilters';
 import { Pagination } from '../components/shared/Pagination';
-import { FilmType } from '../constants/film';
+import { FilmOrder, FilmType } from '../constants/film';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useGetFilmsByFiltersQuery } from '../services/moviesAPI';
@@ -13,6 +13,7 @@ export const Films = () => {
   const { data, isFetching, isLoading } = useGetFilmsByFiltersQuery({
     ...filters,
     type: FilmType.Film,
+    order: FilmOrder.NUM_VOTE,
   });
   const page = useTypedSelector((state) => state.filters.page);
   const { setPage } = useActions();
