@@ -14,6 +14,7 @@ import Slider from '../components/shared/Slider/Slider';
 import FilmSlide from '../components/shared/FilmSlide';
 import PersonSlide from '../components/shared/PersonSlide';
 import { SeriesSection } from '../components/layout/SeriesSection';
+import { filmLength } from '../utils/filmLength';
 
 export const Film = () => {
   const { id } = useParams();
@@ -26,10 +27,10 @@ export const Film = () => {
   const getActors = (actors: IStaff[]) =>
     actors.filter((person) => person.professionKey === 'ACTOR');
 
-  const filmLength = (length: number) => {
-    const h = Math.floor(length / 60);
-    const m = Math.floor(length % 60);
-    return h < 1 ? `${m} мин` : `${h}ч ${m}мин`;
+  const addFavorite = (filmId: string) => {
+    const films = localStorage.getItem('films') || [];
+    // ls
+    window.localStorage.setItem('films', JSON.stringify(films));
   };
 
   if (error) {
@@ -41,7 +42,7 @@ export const Film = () => {
   return (
     <>
       {data && (
-        <>
+        <main className="h-full">
           <section className="h-[calc(100vh_-_88px)]">
             <div className="relative h-full">
               <img
@@ -85,22 +86,26 @@ export const Film = () => {
                     <Button className="px-32 py-2 bg-accentPurple-light rounded-lg">
                       Смотреть
                     </Button>
-                    <i className="px-4 py-3 bg-accentDark/80 rounded-lg">
-                      <svg
-                        width="16"
-                        height="20"
-                        viewBox="0 0 16 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M1 3C1 1.89543 1.89543 1 3 1H13C14.1046 1 15 1.89543 15 3V19L8 15.5L1 19V3Z"
-                          stroke="white"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </i>
+                    {id && (
+                      <i
+                        className="px-4 py-3 bg-accentDark/80 rounded-lg cursor-pointer"
+                        onClick={() => addFavorite(id)}>
+                        <svg
+                          width="16"
+                          height="20"
+                          viewBox="0 0 16 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M1 3C1 1.89543 1.89543 1 3 1H13C14.1046 1 15 1.89543 15 3V19L8 15.5L1 19V3Z"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </i>
+                    )}
                   </div>
                 </div>
               </div>
@@ -218,7 +223,7 @@ export const Film = () => {
               </div>
             </section>
           )}
-        </>
+        </main>
       )}
     </>
   );

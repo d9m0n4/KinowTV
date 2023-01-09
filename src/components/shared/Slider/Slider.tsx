@@ -18,6 +18,7 @@ interface ISlider {
   loop?: boolean;
   withShadow?: boolean;
   gap?: number;
+  navigation?: boolean;
 }
 
 const Slider: React.FC<ISlider> = ({
@@ -32,6 +33,7 @@ const Slider: React.FC<ISlider> = ({
   speed = 15000,
   loop = false,
   gap = 0,
+  navigation = true,
 }) => {
   return (
     <div className="relative">
@@ -54,7 +56,7 @@ const Slider: React.FC<ISlider> = ({
           }
         }
         loop={loop}
-        navigation
+        navigation={navigation}
         spaceBetween={gap}
         // breakpoints={{
         //   480: {

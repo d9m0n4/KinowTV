@@ -12,34 +12,44 @@ export const FirstScreen = () => {
     page: 1,
   });
   return (
-    <section className="bg-accentDark h-[calc(100vh_-_88px)]">
-      <div className="w-full h-full relative">
-        <img className="object-cover w-full h-full" src={cover} alt="" />
-        <div className="absolute inset-0 bg-accentDark opacity-30"></div>
-        <div className="absolute coverShadow left-0 top-0 bottom-0 w-1/4"></div>
-        <div className="container mx-auto absolute inset-0">
-          {data && (
-            <div className="absolute right-0 top-0 bottom-0 flex">
-              <Slider slidesPerView={5}>
-                {data &&
-                  data.films.map((film) => (
-                    <SwiperSlide key={film.filmId} className="p-2 min-w-[140px] w-full">
-                      <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
-                    </SwiperSlide>
-                  ))}
-              </Slider>
-              <Slider reverseDirection slidesPerView={5}>
-                {data &&
-                  data.films.map((film) => (
-                    <SwiperSlide key={film.filmId} className="p-2 min-w-[140px] w-full">
-                      <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
-                    </SwiperSlide>
-                  ))}
-              </Slider>
+    <>
+      {data && (
+        <section className="bg-accentDark h-[calc(100vh_-_88px)]">
+          <div className="w-full h-full relative">
+            <img className="object-cover w-full h-full" src={data.films[0].posterUrl} alt="" />
+            <div className="absolute inset-0 bg-accentDark opacity-30"></div>
+            <div className="absolute coverShadow left-0 top-0 bottom-0 w-1/4"></div>
+            <div className="container mx-auto absolute inset-0">
+              {data && (
+                <div className="absolute right-0 top-0 bottom-0 flex">
+                  <Slider slidesPerView={4} withShadow={false} navigation={false} autoplay loop>
+                    {data &&
+                      data.films.map((film) => (
+                        <SwiperSlide key={film.filmId} className="p-2 min-w-[140px] w-full">
+                          <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
+                        </SwiperSlide>
+                      ))}
+                  </Slider>
+                  <Slider
+                    reverseDirection
+                    slidesPerView={4}
+                    withShadow={false}
+                    navigation={false}
+                    autoplay
+                    loop>
+                    {data &&
+                      data.films.map((film) => (
+                        <SwiperSlide key={film.filmId} className="p-2 min-w-[140px] w-full">
+                          <FilmSlide filmId={film.filmId} filmImg={film.posterUrlPreview} />
+                        </SwiperSlide>
+                      ))}
+                  </Slider>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
-    </section>
+          </div>
+        </section>
+      )}
+    </>
   );
 };
