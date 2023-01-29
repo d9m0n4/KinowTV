@@ -4,7 +4,6 @@ import { FilmTOP } from '../../constants/film';
 import { useGetTopQuery } from '../../services/moviesAPI';
 import FilmSlide from '../shared/FilmSlide';
 import Slider from '../shared/Slider/Slider';
-import cover from '../../assets/1.jpg';
 
 export const FirstScreen = () => {
   const { data, error, isLoading } = useGetTopQuery({
