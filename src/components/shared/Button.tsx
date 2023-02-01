@@ -1,23 +1,23 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
 interface IButton {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
+	children: React.ReactNode;
+	className?: string;
+	onClick?: () => void;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, IButton>(
-  ({ children, className, onClick }, ref) => {
-    return (
-      <button
-        ref={ref}
-        onClick={onClick}
-        type="button"
-        data-mdb-ripple="true"
-        data-mdb-ripple-color="light"
-        className={clsx(
-          `inline-block  
+	({ children, className, onClick }, ref) => {
+		return (
+			<button
+				ref={ref}
+				onClick={onClick}
+				type="button"
+				data-mdb-ripple="true"
+				data-mdb-ripple-color="light"
+				className={clsx(
+					`inline-block  
         font-medium 
         leading-tight   
         shadow-md  
@@ -29,13 +29,15 @@ const Button = React.forwardRef<HTMLButtonElement, IButton>(
         transition 
         duration-150 
         ease-in-out 
+        rounded-lg
         `,
-          className,
-        )}>
-        {children}
-      </button>
-    );
-  },
+					className
+				)}
+			>
+				{children}
+			</button>
+		);
+	}
 );
 
 export default Button;

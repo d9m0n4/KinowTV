@@ -3,10 +3,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { FilmOrder, FilmTOP, FilmType } from '../constants/film';
 import { FilteredFilms, IFilm, TOPFilms } from '../models/film';
 import { IBudget } from '../models/filmBudget';
-import { IPersonInfo } from '../models/persone';
+import { IPersonInfo, PersonFilm } from '../models/persone';
 import { ISeasons } from '../models/serailSeasons';
 import { ISimilars } from '../models/similars';
 import { IStaff } from '../models/staff';
+import { uniqueFilms } from '../utils/findUniqueObject';
 
 export interface IFilmFilters {
 	countries?: number | null;
@@ -111,11 +112,14 @@ export const MoviesAPI = createApi({
 		getStaffByPersonId: builder.query<IPersonInfo, string>({
 			query: (id) => `/v1/staff/${id}`,
 			transformResponse: (response: IPersonInfo) => {
-				const filmsData = response.films.slice(0, 10);
-				return { ...response, films: filmsData };
-				// let o = response.films.map((film) => [film['filmId'], film]);
-				// let u = [...new Map<any, any>(o).values()];
-				// return u;
+				const filmsData = response.films.filter(
+					(film) => film.professionKey === 'ACTOR'
+				);
+
+				return {
+					...response,
+					films: [...uniqueFilms<PersonFilm>(filmsData, 'filmId')],
+				};
 			},
 		}),
 
